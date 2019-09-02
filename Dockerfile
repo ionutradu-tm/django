@@ -3,7 +3,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /work
 WORKDIR /work
 COPY requirements.txt /work/
-COPY settings.py work/
+COPY settings.py /work/
 RUN pip install -r requirements.txt
 
 COPY run.sh /run.sh
