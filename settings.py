@@ -22,7 +22,7 @@ env = environ.Env(
     WERCKER_TOKEN=str,
     ALLOWED_HOSTS=list,
     TRACKER_REPO_PIPELINE_ID=str,
-    FUNCTIONAL_TEST_PIPELINE_ID=str,
+    FUNCTIONAL_TESTS_PIPELINE_ID=str,
 )
 
 
