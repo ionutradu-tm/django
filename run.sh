@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-WORKDRI="/work/webpage/webpage/"
+WORKDIR="/work/webpage/webpage/"
 if [[ -n $DEBUG ]]; then
    echo "DEBUG=$DEBUG" > $WORKDIR".env"
 fi
