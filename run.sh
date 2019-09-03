@@ -25,7 +25,7 @@ if [[ -n $WERCKER_TOKEN ]]; then
 fi
 
 cp /work/settings.py $WORKDIR"settings.py"
-cp /work/urls.py  $WORKDIR"urls.py:
+cp /work/urls.py  $WORKDIR"urls.py"
 cd webpage
 cp -r /work/mng /work/webpage/
 python manage.py runserver 0.0.0.0:8000
