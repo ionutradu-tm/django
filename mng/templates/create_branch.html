@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+    <tr><td>From Branch:</td><td>
+    <input type="text" name="FromBranch"></td></tr>
+    <tr><td>New Branch:</td><td>
+    <input type="text" name="ToBranch"> </td></tr>
+    </table>
+    <input type="submit" value="Create branch">
+</form>
+{% endblock %}

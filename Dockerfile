@@ -4,6 +4,7 @@ RUN mkdir /work
 WORKDIR /work
 COPY requirements.txt /work/
 COPY settings.py /work/
+COPY mng/ /work/mng
 RUN pip install -r requirements.txt
 
 COPY run.sh /run.sh

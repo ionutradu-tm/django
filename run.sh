@@ -10,9 +10,20 @@ if [[ -n $ALLOWED_HOSTS ]]; then
    echo "ALLOWED_HOSTS=$ALLOWED_HOSTS" >> $WORKDIR.env
 fi
 
+if [[ -n $TRACKER_REPO_PIPELINE_ID ]]; then
+   echo "TRACKER_REPO_PIPELINE_ID=$TRACKER_REPO_PIPELINE_ID" >> $WORKDIR.env
+fi
+
+if [[ -n $FUNCTIONAL_TESTS_PIPELINE_ID ]]; then
+   echo "FUNCTIONAL_TESTS_PIPELINE_ID=$FUNCTIONAL_TESTS_PIPELINE_ID" >> $WORKDIR.env
+fi
+
+if [[ -n $WERCKER_TOKEN ]]; then
+   echo "WERCKER_TOKEN=$WERCKER_TOKEN" >> $WORKDIR.env
+fi
 
 django-admin startproject webpage
 cp /work/settings.py $WORKDIRsettings.py
 cd webpage
-pythons manage.py startapp mng
+cp -r /work/mng /work/webpage/
 python manage.py runserver 0.0.0.0:8000

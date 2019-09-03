@@ -15,12 +15,14 @@ import os
 
 from django.utils.translation import gettext_lazy as _
 
+environ.Env.read_env()
 env = environ.Env(
     DEBUG=(bool, False),
     DEBUG_TOOLBAR=(bool, False),
-    SECRET_KEY=str,
+    WERCKER_TOKEN=str,
     ALLOWED_HOSTS=list,
-    DATABASE_URL=str,
+    TRACKER_REPO_PIPELINE_ID=str,
+    FUNCTIONAL_TEST_PIPELINE_ID=str,
 )
 
 
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mng',
 ]
 
 MIDDLEWARE = [
