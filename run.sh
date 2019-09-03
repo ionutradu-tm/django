@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+django-admin startproject webpage
+
 WORKDIR="/work/webpage/webpage/"
 if [[ -n $DEBUG ]]; then
    echo "DEBUG=$DEBUG" > $WORKDIR".env"
@@ -22,7 +24,6 @@ if [[ -n $WERCKER_TOKEN ]]; then
    echo "WERCKER_TOKEN=$WERCKER_TOKEN" >> $WORKDIR.env
 fi
 
-django-admin startproject webpage
 cp /work/settings.py $WORKDIR"settings.py"
 cd webpage
 cp -r /work/mng /work/webpage/
