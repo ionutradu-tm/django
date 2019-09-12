@@ -81,7 +81,7 @@ def functional_tests(request):
         VERSION=request.POST.get('Version')
         ENVIRONMENT=request.POST.get('Environment')
         SUITE=request.POST.get('Suite')
-        x_message = "Test build  %s on environment %s" % (VERSION, ENVIRONMENT)
+        x_message = "Test build  %s on environment %s, suite %s" % (VERSION, ENVIRONMENT, SUITE)
         data = {}
         data['pipelineId'] = FUNCTIONAL_TESTS_PIPELINE_ID
         data['branch'] = "deploy_task"
