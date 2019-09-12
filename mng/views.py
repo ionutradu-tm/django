@@ -80,12 +80,13 @@ def functional_tests(request):
     if request.method == 'POST':
         VERSION=request.POST.get('Version')
         ENVIRONMENT=request.POST.get('Environment')
+        SUITE=request.POST.get('Suite')
         x_message = "Test build  %s on environment %s" % (VERSION, ENVIRONMENT)
         data = {}
         data['pipelineId'] = FUNCTIONAL_TESTS_PIPELINE_ID
         data['branch'] = "deploy_task"
         data['message'] = x_message
-        data['envVars'] = [{ "key": "BUILD_VERSION", "value": VERSION}, { "key": "ENVIRONMENT", "value": ENVIRONMENT } ]
+        data['envVars'] = [{ "key": "BUILD_VERSION", "value": VERSION}, { "key": "ENVIRONMENT", "value": ENVIRONMENT }, { "key": "SUITE", "value": SUITE } ]
 
         data1 = json.dumps(data)
         x_headers = {'Content-Type': 'application/json'}
