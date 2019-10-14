@@ -20,10 +20,12 @@ env = environ.Env(
     ALLOWED_HOSTS=list,
     TRACKER_REPO_PIPELINE_ID=str,
     FUNCTIONAL_TESTS_PIPELINE_ID=str,
+    FUNCTIONAL_TESTS_BRANCH_NAME=str,
 )
 WERCKER_TOKEN = env('WERCKER_TOKEN')
 TRACKER_REPO_PIPELINE_ID = env('TRACKER_REPO_PIPELINE_ID')
 FUNCTIONAL_TESTS_PIPELINE_ID = env('FUNCTIONAL_TESTS_PIPELINE_ID')
+FUNCTIONAL_TESTS_BRANCH_NAME = env('FUNCTIONAL_TESTS_BRANCH_NAME')
 
 def index(request):
     return render(request, 'base.html' )
@@ -84,7 +86,7 @@ def functional_tests(request):
         x_message = "Test build  %s on environment %s, suite %s" % (VERSION, ENVIRONMENT, SUITE)
         data = {}
         data['pipelineId'] = FUNCTIONAL_TESTS_PIPELINE_ID
-        data['branch'] = "deploy_task"
+        data['branch'] = FUNCTIONAL_TESTS_BRANCH_NAME
         data['message'] = x_message
         data['envVars'] = [{ "key": "BUILD_VERSION", "value": VERSION}, { "key": "ENVIRONMENT", "value": ENVIRONMENT }, { "key": "SUITE", "value": SUITE } ]
 
