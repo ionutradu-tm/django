@@ -35,7 +35,7 @@ def deploy(request):
     if request.method == 'POST':
         FROM_BRANCH=request.POST.get('FromBranch')
         TO_BRANCH=request.POST.get('ToBranch')
-        x_message = "Prepare deploy %s on %s " % (FROM_BRANCH,TO_BRANCH)
+        x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
         data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
         data['branch'] = "start-deploy"
