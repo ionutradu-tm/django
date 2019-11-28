@@ -35,11 +35,13 @@ def deploy(request):
     if request.method == 'POST':
         FROM_BRANCH=request.POST.get('FromBranch')
         TO_BRANCH=request.POST.get('ToBranch')
+        RUN_TESTS = request.POST.get('run_tests')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
         data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
         data['branch'] = "start-deploy"
         data['message'] = x_message
+        data['run_tests'] = RUN_TESTS
         data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": "yes"} ]
 
         data1 = json.dumps(data)
