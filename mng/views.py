@@ -41,8 +41,7 @@ def deploy(request):
         data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
         data['branch'] = "start-deploy"
         data['message'] = x_message
-        data['run_tests'] = RUN_TESTS
-        data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": "yes"} ]
+        data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "RUN_TESTS", "value": RUN_TESTS}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": "yes"} ]
 
         data1 = json.dumps(data)
         x_headers = {'Content-Type': 'application/json'}
