@@ -37,13 +37,12 @@ def deploy(request):
         TO_BRANCH=request.POST.get('ToBranch')
         RUN_TESTS = request.POST.get('run_tests')
         X_FORCE_CLONE = request.POST.get('force_clone')
-        X_CUSTOM_LOCALES =  request.POST.get('custom_locales')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
         data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
         data['branch'] = "start-deploy"
         data['message'] = x_message
-        data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "RUN_TESTS", "value": RUN_TESTS}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": X_FORCE_CLONE}, { "key": "CUSTOM_LOCALES", "value": X_CUSTOM_LOCALES} ]
+        data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "RUN_TESTS", "value": RUN_TESTS}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": X_FORCE_CLONE} ]
 
         data1 = json.dumps(data)
         x_headers = {'Content-Type': 'application/json'}
