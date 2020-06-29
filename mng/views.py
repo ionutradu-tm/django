@@ -26,7 +26,7 @@ WERCKER_TOKEN = env('WERCKER_TOKEN')
 TRACKER_REPO_PIPELINE_ID = env('TRACKER_REPO_PIPELINE_ID')
 FUNCTIONAL_TESTS_PIPELINE_ID = env('FUNCTIONAL_TESTS_PIPELINE_ID')
 FUNCTIONAL_TESTS_BRANCH_NAME = env('FUNCTIONAL_TESTS_BRANCH_NAME')
-WERCKER_URL = env('WERCKER_URL')
+X_WERCKER_URL = env('WERCKER_URL')
 
 def index(request):
     return render(request, 'base.html' )
@@ -52,7 +52,7 @@ def deploy(request):
         wercker_url = 'https://app.wercker.com/api/v3/runs/'
         r = requests.post(wercker_url, data=data1, headers=x_headers)
         messages.add_message(request, messages.INFO, "The deployment has been started")
-        x_message= 'Please check the progress <a href="%s"> wercker </a>' & (WERCKER_URL)
+        x_message= 'Please check the progress <a href="%s"> wercker </a>' % (X_WERCKER_URL)
         messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
