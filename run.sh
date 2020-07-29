@@ -26,6 +26,6 @@ fi
 
 cp /work/settings.py $WORKDIR"settings.py"
 cp /work/urls.py  $WORKDIR"urls.py"
-cd webpage
+cd webpage || exit
 cp -r /work/mng /work/webpage/
 python manage.py runserver 0.0.0.0:8000
