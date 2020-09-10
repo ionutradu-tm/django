@@ -30,6 +30,8 @@ jobs:
         run: |
           ls -l
           free -h
+          cat /proc/cpuinfo
+          df -h
 
       -
         name: Build and push
