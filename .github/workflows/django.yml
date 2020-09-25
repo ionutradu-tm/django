@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      RUN_JOB2: ${{ steps.ls.outputs.RUN_JOB }}
     steps:
       -
         name: Checkout
@@ -27,6 +29,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: ls
+        id: ls
         run: |
           RUN_JOB="false"
           echo "::set-env name=RUN_JOB::$RUN_JOB"
@@ -48,6 +51,6 @@ jobs:
     needs: build
     steps:
       - name: test if
-        if: env.RUN_JOB != 'false'
+        if: steps.build.outputs.RUN_JOB2 != 'false'
         run:
           echo "test"
