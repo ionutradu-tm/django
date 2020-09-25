@@ -28,14 +28,14 @@ jobs:
       -
         name: ls
         run: |
-          ls -l
-          free -h
-          cat /proc/cpuinfo
-          df -h
+          RUN_JOB="false"
+          echo "::set-env name=RUN_JOB::$RUN_JOB"
+
 
       -
         name: Build and push
         id: docker_build
+        if: env.RUN_JOB != 'false'
         uses: docker/build-push-action@v2
         with:
           context: .
