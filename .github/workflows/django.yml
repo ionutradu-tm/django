@@ -45,6 +45,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
   test_if:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: test if
         if: env.RUN_JOB != 'false'
