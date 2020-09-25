@@ -28,7 +28,7 @@ jobs:
       -
         name: ls
         run: |
-          RUN_JOB="false"
+          RUN_JOB="fals"
           echo "::set-env name=RUN_JOB::$RUN_JOB"
 
 
