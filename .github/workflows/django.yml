@@ -33,6 +33,7 @@ jobs:
         run: |
           RUN_JOB="false"
           echo "::set-env name=RUN_JOB::$RUN_JOB"
+          echo "::set-output name=RUN_JOB::$RUN_JOB"
       -
         name: Build and push
         id: docker_build
