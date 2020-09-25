@@ -28,10 +28,8 @@ jobs:
       -
         name: ls
         run: |
-          RUN_JOB="fals"
+          RUN_JOB="false"
           echo "::set-env name=RUN_JOB::$RUN_JOB"
-
-
       -
         name: Build and push
         id: docker_build
@@ -45,3 +43,10 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+  test_if:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test if
+        if: env.RUN_JOB != 'false'
+        run:
+          echo "test"
