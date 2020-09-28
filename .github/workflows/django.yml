@@ -35,7 +35,7 @@ jobs:
           export TAG="iradu/django:actions"
           echo "::set-env name=RUN_JOB::$RUN_JOB"
           echo "::set-output name=RUN_JOB::$RUN_JOB"
-          echo "::set-output name=TAG::$TAG"
+          echo "::set-env name=TAG::$TAG"
       -
         name: Build and push
         id: docker_build
