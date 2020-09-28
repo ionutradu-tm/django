@@ -31,9 +31,11 @@ jobs:
         name: ls
         id: ls
         run: |
-          RUN_JOB="false"
+          export RUN_JOB="true"
+          export TAG="iradu/django:actions"
           echo "::set-env name=RUN_JOB::$RUN_JOB"
           echo "::set-output name=RUN_JOB::$RUN_JOB"
+          echo "::set-output name=TAG::$TAG"
       -
         name: Build and push
         id: docker_build
@@ -43,15 +45,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: iradu/django:actions
+          tags: ${{ env.TAG }}, latest2
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-  test_if:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: test if
-        if: steps.build.outputs.RUN_JOB2 != 'false'
-        run:
-          echo "test"
