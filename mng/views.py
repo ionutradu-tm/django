@@ -92,7 +92,7 @@ def create_branch(request):
             messages.success(request,  x_message, extra_tags='safe')
         else:
             data['event_type'] = "create-branch"
-            data['client_payload'] = { "NEW_BRANCH", NEW_BRANCH, "SOURCE_BRANCH", FROM_BRANCH, "FORCE_CLONE","yes"}
+            data['client_payload'] = [{ "NEW_BRANCH", NEW_BRANCH, "SOURCE_BRANCH", FROM_BRANCH, "FORCE_CLONE","yes"}]
             data1 = json.dumps(data)
 
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
