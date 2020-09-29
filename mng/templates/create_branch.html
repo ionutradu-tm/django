@@ -8,6 +8,11 @@
     <input type="text" name="FromBranch"></td></tr>
     <tr><td>New Branch:</td><td>
     <input type="text" name="ToBranch"> </td></tr>
+    <tr><td>CI/CD:</td><td>
+        <select name="ci_cd">
+        <option value="wercker">Wercker</option>
+        <option value="actions" selected>Actions</option>
+    </select>
     </table>
     <input type="submit" value="Create branch">
 </form>
