@@ -99,7 +99,7 @@ def create_branch(request):
             x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
             r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
             messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = "Please check the progress <a href="%s"> actions </a>" % (REPO_ACTIONS_URL)
+            x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
             messages.success(request,  x_message, extra_tags='safe')
 
         return HttpResponseRedirect('/')
