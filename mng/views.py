@@ -48,6 +48,7 @@ def deploy(request):
         RUN_TESTS = request.POST.get('run_tests')
         X_FORCE_CLONE = request.POST.get('force_clone')
         X_FORCE_DEPLOY = request.POST.get('force_deploy')
+        CI_CD = request.POST.get('ci_cd')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
         if CI_CD == "wercker":
