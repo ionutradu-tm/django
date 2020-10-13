@@ -69,7 +69,7 @@ def deploy(request):
         else:
             x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
             data['event_type'] = x_event_type
-            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS}
+            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
             data1 = json.dumps(data)
 
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
