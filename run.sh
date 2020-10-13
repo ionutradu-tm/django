@@ -26,6 +26,9 @@ fi
 
 cp /work/settings.py $WORKDIR"settings.py"
 cp /work/urls.py  $WORKDIR"urls.py"
+if [[ -f /mnt/mesos/sandbox/deploy/.env ]];then
+  cp /mnt/mesos/sandbox/deploy/.env $WORKDIR".env"
+fi
 cd webpage || exit
 cp -r /work/mng /work/webpage/
 python manage.py runserver 0.0.0.0:8000
