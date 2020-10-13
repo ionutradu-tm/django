@@ -46,7 +46,7 @@ def deploy(request):
         FROM_BRANCH=request.POST.get('FromBranch')
         TO_BRANCH=request.POST.get('ToBranch')
         RUN_TESTS = request.POST.get('run_tests')
-        X_FORCE_CLONE = request.POST.get('force_clone')
+        X_FORCE_CLONE = 'yes'
         X_FORCE_DEPLOY = request.POST.get('force_deploy')
         CI_CD = request.POST.get('ci_cd')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
@@ -67,7 +67,8 @@ def deploy(request):
             messages.success(request,  x_message, extra_tags='safe')
 
         else:
-            data['event_type'] = "deployment-preparation"
+            x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
+            data['event_type'] = x_event_type
             data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS}
             data1 = json.dumps(data)
 
