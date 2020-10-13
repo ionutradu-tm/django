@@ -65,7 +65,7 @@ def deploy(request):
             wercker_url = 'https://app.wercker.com/api/v3/runs/'
             r = requests.post(wercker_url, data=data1, headers=x_headers)
             messages.add_message(request, messages.INFO, "The deployment has been started")
-            x_message= 'Please check the progress <a href="%s"> wercker </a> token %s' % (X_WERCKER_URL, TOKEN2)
+            x_message= 'Please check the progress <a href="%s"> wercker </a> token %s' % (X_WERCKER_URL,TOKEN2)
             messages.success(request,  x_message, extra_tags='safe')
 
         else:
@@ -78,7 +78,7 @@ def deploy(request):
             x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
             r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
             messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = 'Please check the progress <a href="%s"> actions </a> token %s' % (REPO_ACTIONS_URL, TOKEN2)
+            x_message = 'Please check the progress <a href="%s"> actions </a> token %s' % (REPO_ACTIONS_URL,TOKEN2)
             messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
