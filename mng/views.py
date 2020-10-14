@@ -121,6 +121,7 @@ def create_branch(request):
     else:
         return render(request, 'create_branch.html')
 
+
 def train(request):
 
     if request.method == 'POST':
