@@ -120,7 +120,27 @@ def create_branch(request):
         return HttpResponseRedirect('/')
     else:
         return render(request, 'create_branch.html')
-    
+
+def train(request):
+
+    if request.method == 'POST':
+        WAGONS=request.POST.get('wagons')
+        REPOS = request.POST.get('repos')
+        data = {}
+        data['event_type'] = "train"
+        data['client_payload'] = { "WAGONS": WAGONS, "REPOS": REPOS}
+        data1 = json.dumps(data)
+
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
+        x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Thomas leaves the Vicarstown Station")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'create_branch.html')
+
 def functional_tests(request):
 
     if request.method == 'POST':

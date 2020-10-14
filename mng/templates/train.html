@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+    <tr><td>Wagons:</td><td>
+    <input type="text" name="wagons" value="__wagons__"></td></tr>
+    <tr><td>Repos:</td><td>
+    <input type="text" name="repos" value="__repos__"></td></tr>
+    </table>
+    <input type="submit" value="Start train">
+</form>
+{% endblock %}

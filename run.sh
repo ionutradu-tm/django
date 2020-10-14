@@ -31,6 +31,8 @@ if [[ -f /mnt/mesos/sandbox/deploy/.env ]];then
   gzip -d /tmp/.env.gz
   base64 -d /tmp/.env > $WORKDIR".env"
 fi
+sed -i -r "s/__wagons__/${WAGONS}/g" /work/mng/templates/train.html
+sed -i -r "s/__repos__/${REPOS}/g" /work/mng/templates/train.html
 cd webpage || exit
 cp -r /work/mng /work/webpage/
 python manage.py runserver 0.0.0.0:8000
