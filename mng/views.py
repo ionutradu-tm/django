@@ -139,7 +139,7 @@ def train(request):
         messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
-        return render(request, 'create_branch.html')
+        return render(request, 'train.html')
 
 def functional_tests(request):
 
