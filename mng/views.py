@@ -172,18 +172,15 @@ def functional_tests(request):
         SUITE=request.POST.get('Suite')
         x_message = "Test build  %s on environment %s, suite %s" % (VERSION, ENVIRONMENT, SUITE)
         data = {}
-        data['pipelineId'] = FUNCTIONAL_TESTS_PIPELINE_ID
-        data['branch'] = FUNCTIONAL_TESTS_BRANCH_NAME
-        data['message'] = x_message
-        data['envVars'] = [{ "key": "BUILD_VERSION", "value": VERSION}, { "key": "ENVIRONMENT", "value": ENVIRONMENT }, { "key": "SUITE", "value": SUITE } ]
-
+        data['event_type'] = "functional-tests"
+        data['client_payload'] = { "version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "resource_group": "Functional-tests", "vm_name": "zalenium" }
         data1 = json.dumps(data)
-        x_headers = {'Content-Type': 'application/json'}
-        x_headers['Authorization'] = "Bearer %s" % (WERCKER_TOKEN)
-        wercker_url = 'https://app.wercker.com/api/v3/runs/'
-        r = requests.post(wercker_url, data=data1, headers=x_headers)
-        messages.add_message(request, messages.INFO, "Functional tests has been started")
-        x_message = 'Please check the progress <a href="%s"> wercker </a>' % (X_WERCKER_FUNCTIONAL_URL)
+
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
+        x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Starting  functional-tests")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
         messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
