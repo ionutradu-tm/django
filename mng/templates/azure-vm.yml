@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+    <tr><td>Power:</td><td>
+    <select name="power">
+        <option value="on"  selected>On</option>
+        <option value="off">Off</option>
+    </select>
+    </td></tr>
+    </table>
+    <input type="submit" value="Start train">
+</form>
+{% endblock %}

@@ -142,6 +142,28 @@ def train(request):
     else:
         return render(request, 'train.html')
 
+def vm_power(request):
+
+    if request.method == 'POST':
+        POWER=request.POST.get('power')
+        data = {}
+        data['event_type'] = "vm Zalenium"
+        data['client_payload'] = { "POWER": POWER, "resource_group": "Functional-tests", "vm_name": "zalenium" }
+        data1 = json.dumps(data)
+
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
+        x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        if POWER == "on":
+            messages.add_message(request, messages.INFO, "Starting Zalenium VM")
+        else:
+            messages.add_message(request, messages.INFO, "Stopping Zalenium VM")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'azure-vm.html')
+
 def functional_tests(request):
 
     if request.method == 'POST':
