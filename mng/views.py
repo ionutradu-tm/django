@@ -58,8 +58,7 @@ def deploy(request):
             data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "RUN_TESTS", "value": RUN_TESTS}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": X_FORCE_CLONE}, { "key": "FORCE_DEPLOY", "value": X_FORCE_DEPLOY} ]
 
             data1 = json.dumps(data)
-            x_headers = {'Content-Type': 'application/json'}
-            x_headers['Authorization'] = "Bearer %s" % (WERCKER_TOKEN)
+            x_headers = {'Content-Type': 'application/json', 'Authorization': "Bearer %s" % (WERCKER_TOKEN)}
             wercker_url = 'https://app.wercker.com/api/v3/runs/'
             r = requests.post(wercker_url, data=data1, headers=x_headers)
             messages.add_message(request, messages.INFO, "The deployment has been started")
@@ -72,8 +71,8 @@ def deploy(request):
             data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
             data1 = json.dumps(data)
 
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
-            x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                         'Authorization': "token %s" % (GIT_TOKEN)}
             r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
             messages.add_message(request, messages.INFO, "Creating the new branch has been started")
             x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
@@ -98,8 +97,7 @@ def create_branch(request):
             data['envVars'] = [{ "key": "NEW_BRANCH", "value": NEW_BRANCH}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": "yes"} ]
             data1 = json.dumps(data)
 
-            x_headers = {'Content-Type': 'application/json'}
-            x_headers['Authorization'] = "Bearer %s" % (WERCKER_TOKEN)
+            x_headers = {'Content-Type': 'application/json', 'Authorization': "Bearer %s" % (WERCKER_TOKEN)}
             wercker_url = 'https://app.wercker.com/api/v3/runs/'
             r = requests.post(wercker_url, data=data1, headers=x_headers)
             x_message = 'Please check the progress <a href="%s"> wercker </a>' % (X_WERCKER_URL)
@@ -110,8 +108,8 @@ def create_branch(request):
             data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
             data1 = json.dumps(data)
 
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
-            x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                         'Authorization': "token %s" % (GIT_TOKEN)}
             r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
             messages.add_message(request, messages.INFO, "Creating the new branch has been started")
             x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
@@ -127,13 +125,10 @@ def train(request):
     if request.method == 'POST':
         WAGONS=request.POST.get('wagons')
         REPOS = request.POST.get('repos')
-        data = {}
-        data['event_type'] = "train"
-        data['client_payload'] = { "WAGONS": WAGONS, "REPOS": REPOS}
+        data = {'event_type': "train", 'client_payload': {"WAGONS": WAGONS, "REPOS": REPOS}}
         data1 = json.dumps(data)
 
-        x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
-        x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
         r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
         messages.add_message(request, messages.INFO, "Thomas leaves the Vicarstown Station")
         x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
@@ -146,13 +141,11 @@ def vm_power(request):
 
     if request.method == 'POST':
         POWER=request.POST.get('power')
-        data = {}
-        data['event_type'] = "vm Zalenium"
-        data['client_payload'] = { "POWER": POWER, "resource_group": "Functional-tests", "vm_name": "zalenium" }
+        data = {'event_type': "vm Zalenium",
+                'client_payload': {"POWER": POWER, "resource_group": "Functional-tests", "vm_name": "zalenium"}}
         data1 = json.dumps(data)
 
-        x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
-        x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
         r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
         if POWER == "on":
             messages.add_message(request, messages.INFO, "Starting Zalenium VM")
@@ -171,13 +164,12 @@ def functional_tests(request):
         ENVIRONMENT=request.POST.get('Environment')
         SUITE=request.POST.get('Suite')
         x_message = "Test build  %s on environment %s, suite %s" % (VERSION, ENVIRONMENT, SUITE)
-        data = {}
-        data['event_type'] = "functional-tests"
-        data['client_payload'] = { "version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "resource_group": "Functional-tests", "vm_name": "zalenium" }
+        data = {'event_type': "functional-tests",
+                'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE,
+                                   "resource_group": "Functional-tests", "vm_name": "zalenium"}}
         data1 = json.dumps(data)
 
-        x_headers = {'Accept': 'application/vnd.github.everest-preview+json'}
-        x_headers['Authorization'] = "token %s" % (GIT_TOKEN)
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
         r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
         messages.add_message(request, messages.INFO, "Starting  functional-tests")
         x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
