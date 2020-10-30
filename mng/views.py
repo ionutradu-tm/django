@@ -123,7 +123,7 @@ def create_branch(request):
 def train(request):
 
     if request.method == 'POST':
-        WAGONS=request.POST.get('wagons')
+        WAGONS = request.POST.get('wagons')
         REPOS = request.POST.get('repos')
         data = {'event_type': "train", 'client_payload': {"WAGONS": WAGONS, "REPOS": REPOS}}
         data1 = json.dumps(data)
