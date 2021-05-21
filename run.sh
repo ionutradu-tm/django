@@ -33,6 +33,11 @@ if [[ -f /mnt/mesos/sandbox/deploy/.env ]];then
 fi
 sed -i -r "s/__wagons__/${WAGONS}/g" /work/mng/templates/train.html
 sed -i -r "s/__repos__/${REPOS}/g" /work/mng/templates/train.html
+sed -i -r "s/__Custom_locale__/${CUSTOM_LOCALE}/g" /work/mng/templates/functional_tests.html
+sed -i -r "s/__BPR_sites__/${BPR_SITES}/g" /work/mng/templates/functional_tests.html
+sed -i -r "s/__Locale_en__/${LOCALE_EN}/g" /work/mng/templates/functional_tests.html
+sed -i -r "s/__Locale_non_en__/${LOCALE_NON_EN}/g" /work/mng/templates/functional_tests.html
+sed -i -r "s/__Locale_all__/${LOCALE_ALL}/g" /work/mng/templates/functional_tests.html
 cd webpage || exit
 cp -r /work/mng /work/webpage/
 python manage.py runserver 0.0.0.0:8000

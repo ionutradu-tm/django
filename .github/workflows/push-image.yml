@@ -1,7 +1,10 @@
 name: Docker CI
 on:
   push:
-    branches: [ master ]
+    branches: [ master, functional-tests-update ]
+
+env:
+  DJANGO_TAG: "1.0.1"
 
 jobs:
   build:
@@ -25,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: iradu/django
+          tags: iradu/django:${{ env.DJANGO_TAG }}
