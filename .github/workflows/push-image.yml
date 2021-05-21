@@ -3,6 +3,9 @@ on:
   push:
     branches: [ master ]
 
+env:
+  DJANGO_TAG: "1.0.1"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: iradu/django
+          tags: iradu/django:${{ env.DJANGO_TAG }}

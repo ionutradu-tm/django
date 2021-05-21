@@ -163,9 +163,15 @@ def functional_tests(request):
         VERSION=request.POST.get('Version')
         ENVIRONMENT=request.POST.get('Environment')
         SUITE=request.POST.get('Suite')
+        CUSTOM_LOCALE = request.POST.get('Custom_locale')
+        BPR_SITES = request.POST.get('BPR_sites')
+        LOCALE_EN = request.POST.get('Locale_en')
+        LOCALE_NON_EN = request.POST.get('Locale_non_en')
+        LOCALE_ALL = request.POST.get('Locale_all')
         x_message = "Test build  %s on environment %s, suite %s" % (VERSION, ENVIRONMENT, SUITE)
         data = {'event_type': "functional-tests",
-                'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE,
+                'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
+                                   "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL,
                                    "resource_group": "Functional-tests", "vm_name": "zalenium"}}
         data1 = json.dumps(data)
 
@@ -177,5 +183,3 @@ def functional_tests(request):
         return HttpResponseRedirect('/')
     else:
         return render(request, 'functional_tests.html')
-    
-
