@@ -16,7 +16,6 @@ environ.Env.read_env()
 env = environ.Env(
     DEBUG=(bool, False),
     DEBUG_TOOLBAR=(bool, False),
-    WERCKER_TOKEN=str,
     TOKEN=str,
     ACTIONS_URL=str,
     REPO_ACTIONS_URL = str,
@@ -27,7 +26,6 @@ env = environ.Env(
     WERCKER_URL=str,
     WERCKER_FUNCTIONAL_URL=str,
 )
-WERCKER_TOKEN = env('WERCKER_TOKEN')
 GIT_TOKEN = env('TOKEN')
 TRACKER_REPO_PIPELINE_ID = env('TRACKER_REPO_PIPELINE_ID')
 FUNCTIONAL_TESTS_PIPELINE_ID = env('FUNCTIONAL_TESTS_PIPELINE_ID')
@@ -51,32 +49,17 @@ def deploy(request):
         CI_CD = request.POST.get('ci_cd')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
-        if CI_CD == "wercker":
-            data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
-            data['branch'] = "start-deploy"
-            data['message'] = x_message
-            data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "RUN_TESTS", "value": RUN_TESTS}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": X_FORCE_CLONE}, { "key": "FORCE_DEPLOY", "value": X_FORCE_DEPLOY} ]
+        x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
+        data['event_type'] = x_event_type
+        data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
+        data1 = json.dumps(data)
 
-            data1 = json.dumps(data)
-            x_headers = {'Content-Type': 'application/json', 'Authorization': "Bearer %s" % (WERCKER_TOKEN)}
-            wercker_url = 'https://app.wercker.com/api/v3/runs/'
-            r = requests.post(wercker_url, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "The deployment has been started")
-            x_message= 'Please check the progress <a href="%s"> wercker </a> ' % (X_WERCKER_URL)
-            messages.success(request,  x_message, extra_tags='safe')
-
-        else:
-            x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
-            data['event_type'] = x_event_type
-            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
-            data1 = json.dumps(data)
-
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                         'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
-            messages.success(request,  x_message, extra_tags='safe')
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                        'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+        x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
         return render(request, 'deploy.html')
@@ -90,30 +73,16 @@ def create_branch(request):
         CI_CD=request.POST.get('ci_cd')
         x_message = "Create branch %s from branch %s" % (NEW_BRANCH, FROM_BRANCH)
         data = {}
-        if CI_CD == "wercker":
-            data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
-            data['branch'] = "create-branch"
-            data['message'] = x_message
-            data['envVars'] = [{ "key": "NEW_BRANCH", "value": NEW_BRANCH}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": "yes"} ]
-            data1 = json.dumps(data)
+        data['event_type'] = "create-branch"
+        data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
+        data1 = json.dumps(data)
 
-            x_headers = {'Content-Type': 'application/json', 'Authorization': "Bearer %s" % (WERCKER_TOKEN)}
-            wercker_url = 'https://app.wercker.com/api/v3/runs/'
-            r = requests.post(wercker_url, data=data1, headers=x_headers)
-            x_message = 'Please check the progress <a href="%s"> wercker </a>' % (X_WERCKER_URL)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            messages.success(request,  x_message, extra_tags='safe')
-        else:
-            data['event_type'] = "create-branch"
-            data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
-            data1 = json.dumps(data)
-
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                         'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
-            messages.success(request,  x_message, extra_tags='safe')
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                        'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
 
         return HttpResponseRedirect('/')
     else:
