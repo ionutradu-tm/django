@@ -20,6 +20,10 @@ if [[ -n $FUNCTIONAL_TESTS_PIPELINE_ID ]]; then
    echo "FUNCTIONAL_TESTS_PIPELINE_ID=$FUNCTIONAL_TESTS_PIPELINE_ID" >> $WORKDIR".env"
 fi
 
+if [[ -n $WERCKER_TOKEN ]]; then
+   echo "WERCKER_TOKEN=$WERCKER_TOKEN" >> $WORKDIR.env
+fi
+
 cp /work/settings.py $WORKDIR"settings.py"
 cp /work/urls.py  $WORKDIR"urls.py"
 if [[ -f /mnt/mesos/sandbox/deploy/.env ]];then
