@@ -18,6 +18,7 @@ env = environ.Env(
     DEBUG_TOOLBAR=(bool, False),
     WERCKER_TOKEN=str,
     TOKEN=str,
+    TOKEN_FUNCTIONAL_TESTS=str,
     ACTIONS_URL=str,
     REPO_ACTIONS_URL = str,
     ALLOWED_HOSTS=list,
@@ -29,6 +30,7 @@ env = environ.Env(
 )
 WERCKER_TOKEN = env('WERCKER_TOKEN')
 GIT_TOKEN = env('TOKEN')
+GIT_TOKEN_FT = env('TOKEN_FUNCTIONAL_TESTS')
 TRACKER_REPO_PIPELINE_ID = env('TRACKER_REPO_PIPELINE_ID')
 FUNCTIONAL_TESTS_PIPELINE_ID = env('FUNCTIONAL_TESTS_PIPELINE_ID')
 FUNCTIONAL_TESTS_BRANCH_NAME = env('FUNCTIONAL_TESTS_BRANCH_NAME')
@@ -175,7 +177,7 @@ def functional_tests(request):
                                    "resource_group": "Functional-tests", "vm_name": "zalenium"}}
         data1 = json.dumps(data)
 
-        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN_FT)}
         r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
         messages.add_message(request, messages.INFO, "Starting  functional-tests")
         x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
