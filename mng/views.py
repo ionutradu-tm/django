@@ -19,7 +19,9 @@ env = environ.Env(
     WERCKER_TOKEN=str,
     TOKEN=str,
     ACTIONS_URL=str,
+    ACTIONS_URL_FUNCTIONAL_TESTS=str,
     REPO_ACTIONS_URL = str,
+    REPO_ACTIONS_URL_FUNCTIONAL_TESTS=str,
     ALLOWED_HOSTS=list,
     TRACKER_REPO_PIPELINE_ID=str,
     FUNCTIONAL_TESTS_PIPELINE_ID=str,
@@ -35,7 +37,9 @@ FUNCTIONAL_TESTS_BRANCH_NAME = env('FUNCTIONAL_TESTS_BRANCH_NAME')
 X_WERCKER_URL = env('WERCKER_URL')
 X_WERCKER_FUNCTIONAL_URL = env('WERCKER_FUNCTIONAL_URL')
 ACTIONS_URL = env('ACTIONS_URL')
+ACTIONS_URL_FT = env('ACTIONS_URL_FUNCTIONAL_TESTS')
 REPO_ACTIONS_URL = env('REPO_ACTIONS_URL')
+REPO_ACTIONS_URL_FT = env('REPO_ACTIONS_URL_FUNCTIONAL_TESTS')
 
 def index(request):
     return render(request, 'base.html' )
@@ -176,9 +180,9 @@ def functional_tests(request):
         data1 = json.dumps(data)
 
         x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
-        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        r = requests.post(ACTIONS_URL_FT, data=data1, headers=x_headers)
         messages.add_message(request, messages.INFO, "Starting  functional-tests")
-        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL_FT)
         messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
