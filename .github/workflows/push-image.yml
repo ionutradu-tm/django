@@ -1,10 +1,10 @@
 name: Docker CI
 on:
   push:
-    branches: [ master ]
+    branches: [ master, functional-tests-update ]
 
 env:
-  DJANGO_TAG: "1.0.2"
+  DJANGO_TAG: "1.0.2-test"
 
 jobs:
   build:
