@@ -187,7 +187,7 @@ def functional_tests(request):
             x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL_FT)
             messages.success(request,  x_message, extra_tags='safe')
             return HttpResponseRedirect('/')
-        else
+        else:
             x_message = "Test build %s on environment %s, suite %s" % (VERSION, ENVIRONMENT, SUITE)
             data = {'event_type': "functional-tests-aks",
                     'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
