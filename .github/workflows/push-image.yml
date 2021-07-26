@@ -4,7 +4,7 @@ on:
     branches: [ master, functional-tests-update ]
 
 env:
-  DJANGO_TAG: "1.0.3-test"
+  DJANGO_TAG: "1.0.3-test2"
 
 jobs:
   build:
