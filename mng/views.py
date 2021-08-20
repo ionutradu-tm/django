@@ -55,6 +55,7 @@ def deploy(request):
         CI_CD = request.POST.get('ci_cd')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
+        CLUSTER = request.POST.get('Cluster')
         if CI_CD == "wercker":
             data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
             data['branch'] = "start-deploy"
@@ -70,17 +71,31 @@ def deploy(request):
             messages.success(request,  x_message, extra_tags='safe')
 
         else:
-            x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
-            data['event_type'] = x_event_type
-            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
-            data1 = json.dumps(data)
+            if CLUSTER == "dcos":
+                x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
+                data['event_type'] = x_event_type
+                data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
+                data1 = json.dumps(data)
 
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                         'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
-            messages.success(request,  x_message, extra_tags='safe')
+                x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                            'Authorization': "token %s" % (GIT_TOKEN)}
+                r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+                messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+                x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+                messages.success(request,  x_message, extra_tags='safe')
+            else:
+                x_event_type = "AKS Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
+                data['event_type'] = x_event_type
+                data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
+                data1 = json.dumps(data)
+
+                x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                            'Authorization': "token %s" % (GIT_TOKEN)}
+                r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+                messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+                x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+                messages.success(request,  x_message, extra_tags='safe')
+                return HttpResponseRedirect('/')
         return HttpResponseRedirect('/')
     else:
         return render(request, 'deploy.html')
