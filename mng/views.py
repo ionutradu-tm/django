@@ -141,6 +141,24 @@ def train(request):
     else:
         return render(request, 'train.html')
 
+def replica(request):
+    payload = {}
+    if request.method == 'POST':
+        for name, value in request.POST.items():
+            payload[name] = value
+        data = {'event_type': "replica", 'client_payload': payload}
+        data1 = json.dumps(data)
+
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Update deployments replica")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'replica.html')
+
+
 def vm_power(request):
 
     if request.method == 'POST':

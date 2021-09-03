@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+    <tr>
+        <td>Environment:</td>
+        <td><select name="env">
+            <option value="dev" >Dev</option>
+            <option value="test" selected>Test</option>
+            <option value="uat" >Dev</option>
+            <option value="preprd" >Dev</option>
+        </select></td>
+    </tr>
+    #__REPLICA_HTML_PLACEHOLDER__
+    </table>
+    <input type="submit" value="Update replica">
+</form>
+{% endblock %}

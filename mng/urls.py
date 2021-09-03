@@ -8,4 +8,5 @@ urlpatterns = [
     path('functional_tests', views.functional_tests, name='functional_tests'),
     path('train', views.train, name='train'),
     path('vm_power', views.vm_power, name='vm_power'),
+    path('replica', views.replica, name='replica'),
 ]
