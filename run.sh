@@ -62,6 +62,7 @@ done < <(env)
 IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$REPLICA_HTML") || true
 REPLICA_HTML_REPLACED=${REPLY%$'\n'}
 sed -i -r "s/#__REPLICA_HTML_PLACEHOLDER__/${REPLICA_HTML_REPLACED}/g" /work/mng/templates/replica.html
+sed -i -r "s/__TITLE__/${TITLE}/g" /work/mng/templates/replica.html
 
 
 

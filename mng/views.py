@@ -145,7 +145,8 @@ def replica(request):
     payload = {}
     if request.method == 'POST':
         for name, value in request.POST.items():
-            payload[name] = value
+            if name != "csrfmiddlewaretoken":
+                payload[name] = value
         data = {'event_type': "replica", 'client_payload': payload}
         data1 = json.dumps(data)
 
@@ -153,7 +154,6 @@ def replica(request):
         r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
         messages.add_message(request, messages.INFO, "Update deployments replica")
         x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
-        x_message = data1
         messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
