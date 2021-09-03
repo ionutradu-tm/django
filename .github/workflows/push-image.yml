@@ -3,10 +3,9 @@ on:
   push:
     branches: 
       - master
-      - aks
 
 env:
-  DJANGO_TAG: "test"
+  DJANGO_TAG: "1.0.4"
 
 jobs:
   build:
