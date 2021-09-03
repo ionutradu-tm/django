@@ -2,6 +2,8 @@
 {% block content %}
 <form method="post" action="">
     {% csrf_token %}
+    <p> __TITLE__
+    <p>
     {{ form.as_p }}
     <table>
     <tr>
@@ -15,6 +17,6 @@
     </tr>
     #__REPLICA_HTML_PLACEHOLDER__
     </table>
-    <input type="submit" value="Update replica">
+    <input type="submit" value="Update replicas">
 </form>
 {% endblock %}

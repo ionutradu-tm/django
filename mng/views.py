@@ -145,7 +145,8 @@ def replica(request):
     payload = {}
     if request.method == 'POST':
         for name, value in request.POST.items():
-            payload[name] = value
+            if name != "csrfmiddlewaretoken":
+                payload[name] = value
         data = {'event_type': "replica", 'client_payload': payload}
         data1 = json.dumps(data)
 
