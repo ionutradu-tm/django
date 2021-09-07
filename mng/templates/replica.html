@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<button type="button" onclick="scaledown()">Replicas 0 </button>
-<p>
+
 <form method="post" action="">
     {% csrf_token %}
     <p> __TITLE__
+    <p>
+    <button type="button" onclick="scaledown()">Replicas 0 </button>
     <p>
     {{ form.as_p }}
     
     <table id="Environment">
     <tr>
         <td>Environment:</td>
-        <td><select name="env">
+        <td><select id= "env" name="env" onchange="default_env()">
             <option value="dev" >Dev</option>
             <option value="test" selected>Test</option>
             <option value="uat" >UAT</option>
@@ -26,13 +27,38 @@
 </form>
 
 <script>
+dev = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
+test = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
+uat = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
+preprd = [ '2', '1', '1', '1', '1', '2', '2', '1', '1' ]; 
 function scaledown() {
-  var mytable = document.getElementById("Replicas");
-  var x = mytable.rows.length;
+  input_list = document.querySelectorAll("form td input");
+  x = input_list.length;
   for (i=0; i < x; i++){
-    current = mytable.rows[i].cells[1].innerHTML;
-    new_value = current.replace(new RegExp("[0-9]"), "0")
-    mytable.rows[i].cells[1].innerHTML = new_value;
+    input_list[i].value="0";
+  }
+}
+function default_env () {
+  var myenv = document.getElementById("env").value;
+  switch (myenv){
+    case 'dev':
+      default_values = dev;
+      break;
+    case 'test':
+      default_values = test;
+      break;
+    case 'uat':
+      default_values = uat;
+      break;
+    case 'preprd':
+      default_values = preprd;
+      break;
+  }
+  
+  input_list = document.querySelectorAll("form td input");
+  x = input_list.length;
+  for (i=0; i < x; i++){
+    input_list[i].value = default_values[i];
   }
 }
 </script>
