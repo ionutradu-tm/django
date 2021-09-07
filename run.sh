@@ -58,7 +58,7 @@ while IFS='=' read -r name value ; do
       REPLICA_HTML+=$replica_html$'\n'
 
    fi
-done < <(env)
+done < <(env | sort -n) 
 IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$REPLICA_HTML") || true
 REPLICA_HTML_REPLACED=${REPLY%$'\n'}
 sed -i -r "s/#__REPLICA_HTML_PLACEHOLDER__/${REPLICA_HTML_REPLACED}/g" /work/mng/templates/replica.html
