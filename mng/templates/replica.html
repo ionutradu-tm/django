@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+<button type="button" onclick="scaledown()">Replicas 0 </button>
+<p>
 <form method="post" action="">
     {% csrf_token %}
     <p> __TITLE__
     <p>
     {{ form.as_p }}
-    <table>
+    
+    <table id="Environment">
     <tr>
         <td>Environment:</td>
         <td><select name="env">
@@ -15,8 +18,22 @@
             <option value="preprd" >PrePrd</option>
         </select></td>
     </tr>
+    </table>
+    <table id="Replicas">
     #__REPLICA_HTML_PLACEHOLDER__
     </table>
     <input type="submit" value="Update replicas">
 </form>
+
+<script>
+function scaledown() {
+  var mytable = document.getElementById("Replicas");
+  var x = mytable.rows.length;
+  for (i=0; i < x; i++){
+    current = mytable.rows[i].cells[1].innerHTML;
+    new_value = current.replace(new RegExp("[0-9]"), "0")
+    mytable.rows[i].cells[1].innerHTML = new_value;
+  }
+}
+</script>
 {% endblock %}
