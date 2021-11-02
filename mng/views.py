@@ -159,6 +159,24 @@ def replica(request):
     else:
         return render(request, 'replica.html')
 
+def debug(request):
+    payload = {}
+    if request.method == 'POST':
+        for name, value in request.POST.items():
+            if name != "csrfmiddlewaretoken":
+                payload[name] = value
+        data = {'event_type': "debug", 'client_payload': payload}
+        data1 = json.dumps(data)
+
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Update deployments debug")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'debug.html')
+
 
 def vm_power(request):
 
