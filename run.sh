@@ -68,7 +68,7 @@ while IFS='=' read -r name value ; do
    if [[ $name == *'_DEBUG' ]]; then
       prefix=${name%%_*} # delete longest match from back (everything after first _)
       debug_name="${prefix}_DEBUG"
-      debug_html=${REPLICA_TEMPLATE//__DEBUG_NAME__/${!debug_name}}
+      debug_html=${DEBUG_TEMPLATE//__DEBUG_NAME__/${!debug_name}}
       DEBUG_HTML+=$debug_html$'\n'
    fi
 done < <(env | sort -n) 
@@ -80,7 +80,7 @@ sed -i -r "s/__TITLE__/${TITLE_REPLICA}/g" /work/mng/templates/replica.html
 IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$DEBUG_HTML") || true
 DEBUG_HTML_REPLACED=${REPLY%$'\n'}
 sed -i -r "s/#__DEBUG_HTML_PLACEHOLDER__/${DEBUG_HTML_REPLACED}/g" /work/mng/templates/debug.html
-sed -i -r "s/__TITLE__/${DEBUG_REPLICA}/g" /work/mng/templates/debug.html
+sed -i -r "s/__TITLE__/${TITLE_DEBUG}/g" /work/mng/templates/debug.html
 
 
 

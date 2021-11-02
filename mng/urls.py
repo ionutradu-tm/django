@@ -9,4 +9,5 @@ urlpatterns = [
     path('train', views.train, name='train'),
     path('vm_power', views.vm_power, name='vm_power'),
     path('replica', views.replica, name='replica'),
+    path('debug', views.debug, name='debug'),
 ]

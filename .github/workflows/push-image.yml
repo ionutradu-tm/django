@@ -3,7 +3,6 @@ on:
   push:
     branches: 
       - master
-
 env:
   DJANGO_TAG: "1.0.8"
 
