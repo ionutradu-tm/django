@@ -5,7 +5,7 @@ on:
       - master
       - update-functional-tests
 env:
-  DJANGO_TAG: "1.0.9.2-test"
+  DJANGO_TAG: "1.0.9.2"
 
 jobs:
   build:
