@@ -4,7 +4,7 @@ on:
     branches: 
       - master
 env:
-  DJANGO_TAG: "1.0.9.1"
+  DJANGO_TAG: "1.0.9.2"
 
 jobs:
   build:
