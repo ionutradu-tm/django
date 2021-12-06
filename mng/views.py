@@ -8,6 +8,7 @@ import requests
 from django.contrib import messages
 import environ
 import os
+import fileinput
 
 # Create your views here.
 
@@ -72,15 +73,19 @@ def deploy(request):
         else:
             x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
             data['event_type'] = x_event_type
-            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
-            data1 = json.dumps(data)
+            if FROM_BRANCH or TO_BRANCH == 'empty':
+                return render(request, 'deploy.html')
+            else: 
+                data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
+                data1 = json.dumps(data)
 
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                         'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
-            messages.success(request,  x_message, extra_tags='safe')
+                x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                            'Authorization': "token %s" % (GIT_TOKEN)}
+                r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+                messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+                x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+                messages.success(request,  x_message, extra_tags='safe')
+            return HttpResponseRedirect('/')  
         return HttpResponseRedirect('/')
     else:
         return render(request, 'deploy.html')
@@ -129,6 +134,19 @@ def train(request):
     if request.method == 'POST':
         WAGONS = request.POST.get('wagons')
         REPOS = request.POST.get('repos')
+        Branches = REPOS.split()
+        number_of_branches = len(Branches)
+        TextToReplace = '<input type="text" name="FromBranch">'
+        TextReplacement = '<select name="ToBranch">\n\t\t<option value="empty" selected></option>\n'
+        for repo in Branches:
+            if number_of_branches > 1:
+                TextReplacement = TextReplacement + "\t\t<option value=\"" + repo + "\">" + repo + "</option>\n"
+                number_of_branches = number_of_branches - 1
+            else:
+                TextReplacement = TextReplacement + "\t\t<option value=\"" + repo + "\">" + repo + "</option>"
+        with fileinput.FileInput('testing.html', inplace=True) as FileWrite:
+            for line in FileWrite:
+                print(line.replace(TextToReplace, TextReplacement), end='')
         data = {'event_type': "train", 'client_payload': {"WAGONS": WAGONS, "REPOS": REPOS}}
         data1 = json.dumps(data)
 
