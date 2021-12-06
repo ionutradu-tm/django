@@ -6,7 +6,7 @@ on:
       - update-deployment
       
 env:
-  DJANGO_TAG: "1.0.9.3-testing"
+  DJANGO_TAG: "1.0.9.3-testing.2"
 
 jobs:
   build:

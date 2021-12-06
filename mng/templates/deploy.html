@@ -5,7 +5,14 @@
     {{ form.as_p }}
     <table>
     <tr><td>From Branch:</td><td>
-    <input type="text" name="FromBranch"></td></tr>
+    <select name="FromBranch">    
+        <option value="empty" selected></option>    
+        <option value="develop">develop</option>
+        <option value="test">test</option>
+        <option value="uat">uat</option>
+        <option value="bprtest">bprtest</option>
+        <option value="bpruat">bpruat</option>
+        <option value="preprd">preprd</option></td></tr>
     <tr><td>To environment:</td><td>
     <select name="ToBranch">
         <option value="empty" selected></option>
