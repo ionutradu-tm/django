@@ -73,7 +73,7 @@ def deploy(request):
         else:
             x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
             data['event_type'] = x_event_type
-            if FROM_BRANCH or TO_BRANCH == 'empty':
+            if FROM_BRANCH == 'empty' or TO_BRANCH == 'empty':
                 return render(request, 'deploy.html')
             else: 
                 data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
