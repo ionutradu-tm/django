@@ -15,8 +15,7 @@
         <td><select id= "env" name="env" onchange="default_env()">
             <option value="dev" >Dev</option>
             <option value="test" selected>Test</option>
-            <option value="bprtest" >BPRtest</option>
-            <option value="bpruat" >BPRuat</option>
+            <option value="bprtest" >BPRTest</option>
             <option value="uat" >UAT</option>
             <option value="preprd" >PrePrd</option>
         </select></td>
@@ -32,7 +31,6 @@
 dev = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 test = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 bprtest = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
-bpruat = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 uat = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 preprd = [ '2', '1', '1', '1', '1', '2', '2', '1', '1' ]; 
 function scaledown() {
@@ -54,9 +52,6 @@ function default_env () {
     case 'bprtest':
       default_values = bprtest;
       break;
-    case 'bpruat':
-      default_values = bpruat;
-      break;  
     case 'uat':
       default_values = uat;
       break;
