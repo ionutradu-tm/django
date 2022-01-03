@@ -7,14 +7,24 @@
     <tr><td>Version:</td><td>
     <input type="text" name="Version"></td></tr>
     <tr><td>Environment:</td><td>
-    <input type="text" name="Environment"> </td></tr>
+    <select name="Environment">
+        <option value="empty" selected></option>
+        <option value="develop">develop</option>
+        <option value="test">test</option>
+        <option value="uat">uat</option>
+        <option value="bprtest">bprtest</option>
+        <option value="bpruat">bpruat</option>
+        <option value="preprd">preprd</option>
+    </select>
+    </td></tr>
     <tr><td>Suite:</td><td>
     <input type="text" name="Suite" value="@smoke"> </td></tr>
     <tr><td>Cluster:</td><td>
     <select name="Cluster">
-    <option value="k8s" selected>Kubernetes</option>
-    <option value="dcos" >DCOS</option>
-    </select></td></tr>    
+        <option value="k8s" selected>Kubernetes</option>
+        <option value="dcos" >DCOS</option>
+    </select>
+    </td></tr>
     </table>
     <input type="submit" value="Start tests">
     <br><br>
@@ -22,11 +32,12 @@
     <table>
     <tr><td>Hub:</td><td>
     <select name="Hub">
-    <option value="azure-ssl" >azure-ssl</option>
-    <option value="azure" >azure</option>
-    <option value="headless" selected>headless</option>
-    <option value="mobile" >mobile</option>
-    </select></td></tr>       
+        <option value="azure-ssl" >azure-ssl</option>
+        <option value="azure" >azure</option>
+        <option value="headless" selected>headless</option>
+        <option value="mobile" >mobile</option>
+    </select>
+    </td></tr>
     <tr><td>Custom_locale:</td><td>
     <input type="text" name="Custom_locale" value="__Custom_locale__"> </td></tr>
     <tr><td>BPR_sites:</td><td>

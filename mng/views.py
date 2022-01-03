@@ -8,7 +8,6 @@ import requests
 from django.contrib import messages
 import environ
 import os
-import fileinput
 
 # Create your views here.
 
@@ -134,19 +133,6 @@ def train(request):
     if request.method == 'POST':
         WAGONS = request.POST.get('wagons')
         REPOS = request.POST.get('repos')
-        Branches = WAGONS.split()
-        number_of_branches = len(Branches)
-        TextToReplace = '<select name="FromBranch">'
-        TextReplacement = '\t<select name="FromBranch">\n'
-        for repo in Branches:
-            if number_of_branches > 1:
-                TextReplacement = TextReplacement + "\t\t<option value=\"" + repo + "\">" + repo + "</option>\n"
-                number_of_branches = number_of_branches - 1
-            else:
-                TextReplacement = TextReplacement + "\t\t<option value=\"" + repo + "\">" + repo + "</option>"
-        with fileinput.FileInput('mng/templates/deploy.html', inplace=True) as FileWrite:
-            for line in FileWrite:
-                print(line.replace(TextToReplace, TextReplacement), end='')
         data = {'event_type': "train", 'client_payload': {"WAGONS": WAGONS, "REPOS": REPOS}}
         data1 = json.dumps(data)
 
