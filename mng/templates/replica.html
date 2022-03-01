@@ -15,9 +15,10 @@
         <td><select id= "env" name="env" onchange="default_env()">
             <option value="dev" >Dev</option>
             <option value="test" selected>Test</option>
+            <option value="uat" >UAT</option>
             <option value="bprtest" >BPRtest</option>
             <option value="bpruat" >BPRuat</option>
-            <option value="uat" >UAT</option>
+            <option value="sandbox" >Sandbox</option>
             <option value="preprd" >PrePrd</option>
         </select></td>
     </tr>
@@ -31,9 +32,10 @@
 <script>
 dev = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 test = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
+uat = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 bprtest = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 bpruat = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
-uat = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
+sandbox = [ '2', '1', '1', '1', '1', '1', '2', '1', '1' ];
 preprd = [ '2', '1', '1', '1', '1', '2', '2', '1', '1' ]; 
 function scaledown() {
   input_list = document.querySelectorAll("form td input");
@@ -51,14 +53,17 @@ function default_env () {
     case 'test':
       default_values = test;
       break;
+    case 'uat':
+      default_values = uat;
+      break;
     case 'bprtest':
       default_values = bprtest;
       break;
     case 'bpruat':
       default_values = bpruat;
-      break;  
-    case 'uat':
-      default_values = uat;
+      break;
+    case 'sandbox':
+      default_values = sandbox;
       break;
     case 'preprd':
       default_values = preprd;
