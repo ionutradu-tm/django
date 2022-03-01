@@ -82,7 +82,7 @@ DEBUG_HTML_REPLACED=${REPLY%$'\n'}
 sed -i -r "s/#__DEBUG_HTML_PLACEHOLDER__/${DEBUG_HTML_REPLACED}/g" /work/mng/templates/debug.html
 sed -i -r "s/__TITLE__/${DEBUG_TITLE}/g" /work/mng/templates/debug.html
 
-export WAGONS
+export ACTIVE_BRANCHES
 python /work/modifier.py
 
 cd webpage || exit
