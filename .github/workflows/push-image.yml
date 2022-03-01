@@ -5,7 +5,7 @@ on:
       - master
       
 env:
-  DJANGO_TAG: "1.0.9.6"
+  DJANGO_TAG: "1.0.9.7"
 
 jobs:
   build:
