@@ -1,8 +1,8 @@
 import os
 import fileinput
 
-WAGONS = os.environ["WAGONS"]
-Branches = WAGONS.split()
+ACTIVE_BRANCHES = os.environ["ACTIVE_BRANCHES"]
+Branches = ACTIVE_BRANCHES.split()
 number_of_branches = len(Branches)
 TextToReplace = '<select name="FromBranch">'
 TextReplacement = '<select name="FromBranch">\n'
