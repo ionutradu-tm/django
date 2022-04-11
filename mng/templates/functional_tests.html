@@ -20,11 +20,6 @@
     </td></tr>
     <tr><td>Suite:</td><td>
     <input type="text" name="Suite" value="@smoke"> </td></tr>
-    <tr><td>Cluster:</td><td>
-    <select name="Cluster">
-        <option value="k8s" selected>Kubernetes</option>
-        <option value="dcos" >DCOS</option>
-    </select>
     </td></tr>
     </table>
     <input type="submit" value="Start tests">
@@ -49,6 +44,19 @@
     <input type="text" name="Locale_non_en" value="__Locale_non_en__" size="100"> </td></tr>
     <tr><td>Locale_all:</td><td>
     <input type="text" name="Locale_all" value="__Locale_all__" size="100"> </td></tr>
+    </table>
+    <br><br>
+    <p>Advanced settings</p>
+    <table>
+    <tr><td>Cluster:</td><td>
+    <select name="Cluster">
+        <option value="k8s" selected>Kubernetes</option>
+        <option value="dcos" >DCOS</option>
+    </select>
+    </td></tr>
+    <tr><td>Docker tag:</td><td>
+    <input type="text" name="Docker tag" value="latest"> </td></tr>
+    <tr><td>Cluster:</td><td>
     </table>
 </form>
 {% endblock %}

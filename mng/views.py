@@ -215,6 +215,7 @@ def functional_tests(request):
         LOCALE_ALL = request.POST.get('Locale_all')
         CLUSTER = request.POST.get('Cluster')
         HUB = request.POST.get('Hub')
+        DOCKER_TAG = request.POST.get('Docker tag')
         if CLUSTER == "dcos":
             x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
             data = {'event_type': "functional-tests",
@@ -233,7 +234,7 @@ def functional_tests(request):
             x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
             data = {'event_type': "functional-tests-aks",
                     'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
-                                       "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL, "HUB": HUB}}
+                                       "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL, "HUB": HUB, "DOCKER_TAG": DOCKER_TAG}}
             data1 = json.dumps(data)
 
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
