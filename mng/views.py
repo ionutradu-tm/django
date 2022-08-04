@@ -251,7 +251,7 @@ def test_stress(request):
     if request.method == 'POST':
         ENVIRONMENT=request.POST.get('Environment')
         data = {}
-        x_event_type = "Preparing the test stress on %s " % (ENVIRONMENT)
+        x_event_type = "Starting the test stress on %s " % (ENVIRONMENT)
         data['event_type'] = x_event_type
         if ENVIRONMENT == 'empty':
             return render(request, 'test_stress.html')
