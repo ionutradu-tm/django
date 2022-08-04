@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+    <tr><td>Environment:</td><td>
+    <select name="Environment">
+        <option value="empty" selected></option>
+        <option value="uat">uat</option>
+        <option value="preprd">preprd</option>
+    </select>
+    </td></tr>
+    <input type="submit" value="Start test stress">
+</form>
+{% endblock %}

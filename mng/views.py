@@ -245,3 +245,25 @@ def functional_tests(request):
             return HttpResponseRedirect('/')
     else:
         return render(request, 'functional_tests.html')
+
+def test_stress(request):
+
+    if request.method == 'POST':
+        ENVIRONMENT=request.POST.get('Environment')
+        data = {}
+        x_event_type = "Preparing the test stress on %s " % (ENVIRONMENT)
+        data['event_type'] = x_event_type
+        if ENVIRONMENT == 'empty':
+            return render(request, 'deploy.html')
+        else: 
+            data['client_payload'] = { "ENVIRONMENT": ENVIRONMENT}
+            data1 = json.dumps(data)
+            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                        'Authorization': "token %s" % (GIT_TOKEN)}
+            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+            messages.add_message(request, messages.INFO, "Test stress has been started")
+            x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+            messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'deploy.html')
