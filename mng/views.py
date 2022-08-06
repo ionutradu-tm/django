@@ -261,7 +261,7 @@ def test_stress(request):
         data = {}
         x_event_type = "Starting the test stress on %s " % (ENVIRONMENT)
         data['event_type'] = x_event_type
-        if ENVIRONMENT == 'empty' | RUN_TIME == 'empty':
+        if ENVIRONMENT == 'empty' or RUN_TIME == 'empty':
             return render(request, 'test_stress.html')
         else: 
             data['client_payload'] = { "ENVIRONMENT": ENVIRONMENT, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS }
