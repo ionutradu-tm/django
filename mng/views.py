@@ -250,6 +250,7 @@ def test_stress(request):
 
     if request.method == 'POST':
         ENVIRONMENT=request.POST.get('Environment')
+        NO_OF_USERS=request.POST.get('no_of_users')
         RUN_TIME=request.POST.get('run_time')
         STARTUP_TIME=request.POST.get('startup_time')
         ITERATIONS=request.POST.get('iterations')
@@ -263,7 +264,7 @@ def test_stress(request):
         if ENVIRONMENT == 'empty' | RUN_TIME == 'empty':
             return render(request, 'test_stress.html')
         else: 
-            data['client_payload'] = { "ENVIRONMENT": ENVIRONMENT, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS }
+            data['client_payload'] = { "ENVIRONMENT": ENVIRONMENT, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS }
             data1 = json.dumps(data)
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
                         'Authorization': "token %s" % (GIT_TOKEN)}
