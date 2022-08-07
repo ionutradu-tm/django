@@ -32,21 +32,20 @@
     <input type="submit" value="Start test stress">
     </form>
     <script>
-        var running_total = ``;
-        
-        function update(feature) {
-            // Check
-            if(feature.checked == true){
-                // Add value to running_total
-                running_total += String(feature.value);
-                document.getElementById('no_reset_metrics').value = running_total;
-            }
-            // Uncheck
-            if(feature.checked == false){
-                // Subtract value from running_total
-                running_total -= String(feature.value);
-                document.getElementById('no_reset_metrics').value = running_total;
-            }
+    var default_value = ``;
+    function update(feature) {
+        // Check
+        if(feature.checked == true){
+            // Add value to default_value
+            default_value += String(feature.value);
+            document.getElementById('no_reset_metrics').value = default_value;
         }
-        </script>
+        // Uncheck
+        if(feature.checked == false){
+            // Subtract value from default_value
+            default_value -= String(feature.value);
+            document.getElementById('no_reset_metrics').value = default_value;
+        }
+    }
+    </script>
 {% endblock %}
