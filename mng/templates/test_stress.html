@@ -27,8 +27,26 @@
     <input id="hatch_rate" name="hatch_rate" disabled="disabled"/></td></tr>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('test_plan'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />Test plan:</td><td>
     <input id="test_plan" name="test_plan" disabled="disabled"/></td></tr>
-    <tr><td><input id="no_reset_metrics" name="no_reset_metrics" type="checkbox">No reset metrics</td><td>
+    <tr><td><input type="checkbox" id="no_reset_metrics" name="no_reset_metrics" value="--no-reset-metrics" onchange="update(this);">No reset metrics:</td><td>
     </table>
     <input type="submit" value="Start test stress">
     </form>
+    <script>
+        var running_total = ``;
+        
+        function update(feature) {
+            // Check
+            if(feature.checked == true){
+                // Add value to running_total
+                running_total += String(feature.value);
+                document.getElementById('no_reset_metrics').value = running_total;
+            }
+            // Uncheck
+            if(feature.checked == false){
+                // Subtract value from running_total
+                running_total -= String(feature.value);
+                document.getElementById('no_reset_metrics').value = running_total;
+            }
+        }
+        </script>
 {% endblock %}
