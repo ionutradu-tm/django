@@ -259,13 +259,15 @@ def performance_test(request):
         TEST_PLAN=request.POST.get('test_plan')
         NO_RESET_METRICS=request.POST.get('no_reset_metrics')
         SITE = request.POST.get('site')
+        SKU = request.POST.get('sku')
+        FACET = request.POST.get('facet')
         data = {}
         x_event_type = "Starting the performance test on %s " % (HOST)
         data['event_type'] = x_event_type
-        if (HOST == "") or (NO_OF_USERS == "") or (SITE == ""):
+        if (HOST == "") or (NO_OF_USERS == "") or (SITE == "") or (SKU == "") or (FACET == ""):
             return render(request, 'performance_test.html')
         else: 
-            data['client_payload'] = { "HOST": HOST, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS, "SITE": SITE }
+            data['client_payload'] = { "HOST": HOST, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS, "SITE": SITE, "SKU": SKU, "FACET": FACET }
             data1 = json.dumps(data)
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
                         'Authorization': "token %s" % (GIT_TOKEN)}

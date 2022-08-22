@@ -53,6 +53,8 @@ sed -i -r "s/__Locale_en__/${LOCALE_EN}/g" /work/mng/templates/functional_tests.
 sed -i -r "s/__Locale_non_en__/${LOCALE_NON_EN}/g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__Locale_all__/${LOCALE_ALL}/g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__site__/${SITE}/g" /work/mng/templates/performance_test.html
+sed -i -r "s/__sku__/${SKU}/g" /work/mng/templates/performance_test.html
+sed -i -r "s/__facet__/${FACET}/g" /work/mng/templates/performance_test.html
 
 #generate start/stop replicas
 REPLICA_HTML=""
