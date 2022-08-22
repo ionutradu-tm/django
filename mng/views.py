@@ -249,7 +249,7 @@ def functional_tests(request):
 def performance_test(request):
 
     if request.method == 'POST':
-        ENVIRONMENT=request.POST.get('Environment')
+        HOST=request.POST.get('host')
         NO_OF_USERS=request.POST.get('no_of_users')
         RUN_TIME=request.POST.get('run_time')
         STARTUP_TIME=request.POST.get('startup_time')
@@ -258,13 +258,15 @@ def performance_test(request):
         HATCH_RATE=request.POST.get('hatch_rate')
         TEST_PLAN=request.POST.get('test_plan')
         NO_RESET_METRICS=request.POST.get('no_reset_metrics')
+        SITE = request.POST.get('site')
+        SKU = request.POST.get('sku')
         data = {}
-        x_event_type = "Starting the performance test on %s " % (ENVIRONMENT)
+        x_event_type = "Starting the performance test on %s " % (HOST)
         data['event_type'] = x_event_type
-        if (ENVIRONMENT == "") or (NO_OF_USERS == ""):
+        if (HOST == "") or (NO_OF_USERS == "") or (SITE == ""):
             return render(request, 'performance_test.html')
         else: 
-            data['client_payload'] = { "ENVIRONMENT": ENVIRONMENT, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS }
+            data['client_payload'] = { "HOST": HOST, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS, "SITE": SITE, "SKU": SKU }
             data1 = json.dumps(data)
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
                         'Authorization': "token %s" % (GIT_TOKEN)}

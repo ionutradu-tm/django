@@ -6,15 +6,24 @@
 <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
+    <br><br>
+    <tr><td>Mandatory parameters</tr><td>
+    <table>
     <table>
     <tr><td>--host</td><td>
-    <select name="Environment">
+    <select name="host">
         <option value="" selected></option>
         <option value="uat">uat</option>
         <option value="preprd">preprd</option>
-    </select>
+    </select><input type="text" name="site" value="__SITE__" size="3"> </td></tr>
     <tr><td>--users</td><td>
     <input type="text" name="no_of_users"></td></tr>
+    <tr><td>SKU</td><td>
+    </select><input type="text" name="sku" value="__SKU__">
+    </table>
+    <br><br>
+    <tr><td>Optional parameters</tr><td>
+    <table>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('run_time'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--run-time</td><td>
     <input id="run_time" name="run_time" disabled="disabled"/></td></tr>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('startup_time'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--startup-time</td><td>
@@ -32,6 +41,7 @@
     <input type="submit" value="Start performance test">
     </form>
     <script>
+    // value update when box checked/ unchecked
     var default_value = ``;
     function update(feature) {
         // Check
