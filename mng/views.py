@@ -261,8 +261,8 @@ def performance_test(request):
         SITE = request.POST.get('site')
         SKU = request.POST.get('sku')
         FACET = request.POST.get('facet')
-        MANDATORY = "HOST: %s, NO_OF_USERS: %s, SITE: %s, SKU: %s, FACET: %s" % (HOST, NO_OF_USERS, SITE, SKU, FACET)
-        OPTIONAL = "RUN_TIME: %s, STARTUP_TIME: %s, ITERATIONS: %s, REPORT_FILE: %s, HATCH_RATE: %s, TEST_PLAN: %s, NO_RESET_METRICS: %s" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, TEST_PLAN, NO_RESET_METRICS)
+        MANDATORY = "HOST=\"%s\", NO_OF_USERS=\"%s\", SITE=\"%s\", SKU=\"%s\", FACET=\"%s\"" % (HOST, NO_OF_USERS, SITE, SKU, FACET)
+        OPTIONAL = "RUN_TIME=\"%s\", STARTUP_TIME=\"%s\", ITERATIONS=\"%s\", REPORT_FILE=\"%s\", HATCH_RATE=\"%s\", TEST_PLAN=\"%s\", NO_RESET_METRICS=\"%s\"" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, TEST_PLAN, NO_RESET_METRICS)
         data = {}
         x_event_type = "Starting the performance test on %s " % (HOST)
         data['event_type'] = x_event_type
