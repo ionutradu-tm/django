@@ -270,7 +270,7 @@ def performance_test(request):
             HATCH_RATE = ""
         TEST_PLAN=request.POST.get('test_plan')
         if TEST_PLAN is None:
-            TEST_PLAN = ""
+            TEST_PLAN = "\"\""
         NO_RESET_METRICS=request.POST.get('no_reset_metrics')
         if NO_RESET_METRICS is None:
             NO_RESET_METRICS = ""
