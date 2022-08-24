@@ -253,6 +253,8 @@ def performance_test(request):
         NO_OF_USERS=request.POST.get('no_of_users')
         RUN_TIME=request.POST.get('run_time')
         STARTUP_TIME=request.POST.get('startup_time')
+        if STARTUP_TIME is None:
+            STARTUP_TIME = ""
         ITERATIONS=request.POST.get('iterations')
         REPORT_FILE=request.POST.get('report_file')
         HATCH_RATE=request.POST.get('hatch_rate')
