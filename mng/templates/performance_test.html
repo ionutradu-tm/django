@@ -16,8 +16,6 @@
         <option value="uat">uat</option>
         <option value="preprd">preprd</option>
     </select><input type="text" name="site" value="__site__" size="3"> </td></tr>
-    <tr><td>--users</td><td>
-    <input type="text" name="no_of_users"></td></tr>
     <tr><td>SEARCH_SKU</td><td>
     </select><input type="text" name="sku" value="__sku__">
     <tr><td>SEARCH_FACET</td><td>
@@ -26,6 +24,8 @@
     <br><br>
     <tr><td>Optional parameters</tr><td>
     <table>
+    <tr><td><input type="checkbox" onclick="var input = document.getElementById('no_of_users'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--users</td><td>
+    <input id="no_of_users" name="no_of_users" disabled="disabled"/></td></tr>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('run_time'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--run-time</td><td>
     <input id="run_time" name="run_time" disabled="disabled"/></td></tr>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('startup_time'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--startup-time</td><td>

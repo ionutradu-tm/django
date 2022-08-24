@@ -251,15 +251,29 @@ def performance_test(request):
     if request.method == 'POST':
         ENVIRONMENT=request.POST.get('environment')
         NO_OF_USERS=request.POST.get('no_of_users')
+        if NO_OF_USERS is None:
+            NO_OF_USERS = ""
         RUN_TIME=request.POST.get('run_time')
+        if RUN_TIME is None:
+            RUN_TIME = ""
         STARTUP_TIME=request.POST.get('startup_time')
         if STARTUP_TIME is None:
             STARTUP_TIME = ""
         ITERATIONS=request.POST.get('iterations')
+        if ITERATIONS is None:
+            ITERATIONS = ""
         REPORT_FILE=request.POST.get('report_file')
+        if REPORT_FILE is None:
+            REPORT_FILE = ""
         HATCH_RATE=request.POST.get('hatch_rate')
+        if HATCH_RATE is None:
+            HATCH_RATE = ""
         TEST_PLAN=request.POST.get('test_plan')
+        if TEST_PLAN is None:
+            TEST_PLAN = ""
         NO_RESET_METRICS=request.POST.get('no_reset_metrics')
+        if NO_RESET_METRICS is None:
+            NO_RESET_METRICS = ""
         SITE = request.POST.get('site')
         SKU = request.POST.get('sku')
         FACET = request.POST.get('facet')
@@ -267,22 +281,20 @@ def performance_test(request):
         OPTIONAL = "RUN_TIME=\"%s\",STARTUP_TIME=\"%s\",ITERATIONS=\"%s\",REPORT_FILE=\"%s\",HATCH_RATE=\"%s\",NO_RESET_METRICS=\"%s\"" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, NO_RESET_METRICS)
         if (TEST_PLAN != ""):
             TEST_PLAN = "\'\"%s\"\'" % (TEST_PLAN)
-        else:
-            TEST_PLAN = "\"%s\"" % (TEST_PLAN)
-#        if (ENVIRONMENT == "") or (NO_OF_USERS == "") or (SITE == "") or (SKU == "") or (FACET == ""):
-#            return render(request, 'performance_test.html')
-#        else: 
-        data = {}
-        x_event_type = "Starting the performance test on %s " % (ENVIRONMENT)
-        data['event_type'] = x_event_type
-        data['client_payload'] = { "MANDATORY": MANDATORY, "OPTIONAL": OPTIONAL, "TEST_PLAN": TEST_PLAN }
-        data1 = json.dumps(data)
-        x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                    'Authorization': "token %s" % (GIT_TOKEN)}
-        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-        messages.add_message(request, messages.INFO, "Performance test has been started")
-        x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
-        messages.success(request,  x_message, extra_tags='safe')
+        if (ENVIRONMENT == "") or (SITE == "") or (SKU == "") or (FACET == ""):
+            return render(request, 'performance_test.html')
+        else: 
+            data = {}
+            x_event_type = "Starting the performance test on %s " % (ENVIRONMENT)
+            data['event_type'] = x_event_type
+            data['client_payload'] = { "MANDATORY": MANDATORY, "OPTIONAL": OPTIONAL, "TEST_PLAN": TEST_PLAN }
+            data1 = json.dumps(data)
+            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                        'Authorization': "token %s" % (GIT_TOKEN)}
+            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+            messages.add_message(request, messages.INFO, "Performance test has been started")
+            x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+            messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
         return render(request, 'performance_test.html')
