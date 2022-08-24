@@ -281,6 +281,6 @@ def performance_test(request):
         messages.add_message(request, messages.INFO, "Performance test has been started")
         x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
         messages.success(request,  x_message, extra_tags='safe')
-#        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/')
     else:
         return render(request, 'performance_test.html')
