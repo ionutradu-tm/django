@@ -251,9 +251,15 @@ def performance_test(request):
     if request.method == 'POST':
         ENVIRONMENT=request.POST.get('environment')
         NO_OF_USERS=request.POST.get('no_of_users')
+        RUN_TIME=request.POST.get('run_time')
+        STARTUP_TIME=request.POST.get('startup_time')
+        ITERATIONS=request.POST.get('iterations')
+        REPORT_FILE=request.POST.get('report_file')
+        HATCH_RATE=request.POST.get('hatch_rate')
         TEST_PLAN=request.POST.get('test_plan')
         if TEST_PLAN is None:
             TEST_PLAN = "\"\""
+        NO_RESET_METRICS=request.POST.get('no_reset_metrics')
         SITE = request.POST.get('site')
         SKU = request.POST.get('sku')
         FACET = request.POST.get('facet')
