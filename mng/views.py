@@ -251,34 +251,16 @@ def performance_test(request):
     if request.method == 'POST':
         ENVIRONMENT=request.POST.get('environment')
         NO_OF_USERS=request.POST.get('no_of_users')
-        if NO_OF_USERS is None:
-            NO_OF_USERS = ""
-        RUN_TIME=request.POST.get('run_time')
-        if RUN_TIME is None:
-            RUN_TIME = ""
-        STARTUP_TIME=request.POST.get('startup_time')
-        if STARTUP_TIME is None:
-            STARTUP_TIME = ""
-        ITERATIONS=request.POST.get('iterations')
-        if ITERATIONS is None:
-            ITERATIONS = ""
-        REPORT_FILE=request.POST.get('report_file')
-        if REPORT_FILE is None:
-            REPORT_FILE = ""
-        HATCH_RATE=request.POST.get('hatch_rate')
-        if HATCH_RATE is None:
-            HATCH_RATE = ""
         TEST_PLAN=request.POST.get('test_plan')
         if TEST_PLAN is None:
             TEST_PLAN = "\"\""
-        NO_RESET_METRICS=request.POST.get('no_reset_metrics')
-        if NO_RESET_METRICS is None:
-            NO_RESET_METRICS = ""
         SITE = request.POST.get('site')
         SKU = request.POST.get('sku')
         FACET = request.POST.get('facet')
-        MANDATORY = "ENVIRONMENT=\"%s\",NO_OF_USERS=\"%s\",SITE=\"%s\",SKU=\"%s\",FACET=\"%s\"" % (ENVIRONMENT, NO_OF_USERS, SITE, SKU, FACET)
+        MANDATORY = "ENVIRONMENT=%s,NO_OF_USERS=\"%s\",SITE=\"%s\",SKU=\"%s\",FACET=\"%s\"" % (ENVIRONMENT, NO_OF_USERS, SITE, SKU, FACET)
         OPTIONAL = "RUN_TIME=\"%s\",STARTUP_TIME=\"%s\",ITERATIONS=\"%s\",REPORT_FILE=\"%s\",HATCH_RATE=\"%s\",NO_RESET_METRICS=\"%s\"" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, NO_RESET_METRICS)
+        MANDATORY = MANDATORY.replace("None", "")
+        OPTIONAL = OPTIONAL.replace("None", "")
         if (TEST_PLAN != ""):
             TEST_PLAN = "\'\"%s\"\'" % (TEST_PLAN)
         if (ENVIRONMENT == "") or (SITE == "") or (SKU == "") or (FACET == ""):
