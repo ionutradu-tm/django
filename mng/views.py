@@ -257,8 +257,6 @@ def performance_test(request):
         REPORT_FILE=request.POST.get('report_file')
         HATCH_RATE=request.POST.get('hatch_rate')
         TEST_PLAN=request.POST.get('test_plan')
-        if TEST_PLAN is None:
-            TEST_PLAN = "\"\""
         NO_RESET_METRICS=request.POST.get('no_reset_metrics')
         SITE = request.POST.get('site')
         SKU = request.POST.get('sku')
@@ -267,7 +265,9 @@ def performance_test(request):
         OPTIONAL = "RUN_TIME=\"%s\",STARTUP_TIME=\"%s\",ITERATIONS=\"%s\",REPORT_FILE=\"%s\",HATCH_RATE=\"%s\",NO_RESET_METRICS=\"%s\"" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, NO_RESET_METRICS)
         MANDATORY = MANDATORY.replace("None", "")
         OPTIONAL = OPTIONAL.replace("None", "")
-        if (TEST_PLAN != ""):
+        if TEST_PLAN is None:
+            TEST_PLAN = "\"\""
+        else:
             TEST_PLAN = "\"%s\"" % (TEST_PLAN)
         if (ENVIRONMENT == "") or (SITE == "") or (SKU == "") or (FACET == ""):
             return render(request, 'performance_test.html')
