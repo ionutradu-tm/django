@@ -249,7 +249,7 @@ def functional_tests(request):
 def performance_test(request):
 
     if request.method == 'POST':
-        ENVIRONMENT=request.POST.get('Environment')
+        ENVIRONMENT=request.POST.get('environment')
         NO_OF_USERS=request.POST.get('no_of_users')
         RUN_TIME=request.POST.get('run_time')
         STARTUP_TIME=request.POST.get('startup_time')
@@ -258,13 +258,24 @@ def performance_test(request):
         HATCH_RATE=request.POST.get('hatch_rate')
         TEST_PLAN=request.POST.get('test_plan')
         NO_RESET_METRICS=request.POST.get('no_reset_metrics')
-        data = {}
-        x_event_type = "Starting the performance test on %s " % (ENVIRONMENT)
-        data['event_type'] = x_event_type
-        if (ENVIRONMENT == "") or (NO_OF_USERS == ""):
+        SITE = request.POST.get('site')
+        SKU = request.POST.get('sku')
+        FACET = request.POST.get('facet')
+        MANDATORY = "ENVIRONMENT=%s,NO_OF_USERS=\"%s\",SITE=\"%s\",SKU=\"%s\",FACET=\"%s\"" % (ENVIRONMENT, NO_OF_USERS, SITE, SKU, FACET)
+        OPTIONAL = "RUN_TIME=\"%s\",STARTUP_TIME=\"%s\",ITERATIONS=\"%s\",REPORT_FILE=\"%s\",HATCH_RATE=\"%s\",NO_RESET_METRICS=\"%s\"" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, NO_RESET_METRICS)
+        MANDATORY = MANDATORY.replace("None", "")
+        OPTIONAL = OPTIONAL.replace("None", "")
+        if TEST_PLAN is None:
+            TEST_PLAN = "\"\""
+        else:
+            TEST_PLAN = "\"%s\"" % (TEST_PLAN)
+        if (ENVIRONMENT == "") or (SITE == "") or (SKU == "") or (FACET == ""):
             return render(request, 'performance_test.html')
         else: 
-            data['client_payload'] = { "ENVIRONMENT": ENVIRONMENT, "NO_OF_USERS": NO_OF_USERS, "RUN_TIME": RUN_TIME, "STARTUP_TIME": STARTUP_TIME, "ITERATIONS": ITERATIONS, "REPORT_FILE": REPORT_FILE, "HATCH_RATE": HATCH_RATE, "TEST_PLAN": TEST_PLAN, "NO_RESET_METRICS": NO_RESET_METRICS }
+            data = {}
+            x_event_type = "Starting the performance test on %s " % (ENVIRONMENT)
+            data['event_type'] = x_event_type
+            data['client_payload'] = { "MANDATORY": MANDATORY, "OPTIONAL": OPTIONAL, "TEST_PLAN": TEST_PLAN }
             data1 = json.dumps(data)
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
                         'Authorization': "token %s" % (GIT_TOKEN)}

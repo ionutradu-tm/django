@@ -6,15 +6,26 @@
 <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
+    <br>
+    <tr><td>Mandatory parameters</tr><td>
+    <table>
     <table>
     <tr><td>--host</td><td>
-    <select name="Environment">
+    <select name="environment">
         <option value="" selected></option>
         <option value="uat">uat</option>
         <option value="preprd">preprd</option>
-    </select>
-    <tr><td>--users</td><td>
-    <input type="text" name="no_of_users"></td></tr>
+    </select><input type="text" name="site" value="__site__" size="3"> </td></tr>
+    <tr><td>SEARCH_SKU</td><td>
+    </select><input type="text" name="sku" value="__sku__">
+    <tr><td>SEARCH_FACET</td><td>
+    </select><input type="text" name="facet" value="__facet__">
+    </table>
+    <br><br>
+    <tr><td>Optional parameters</tr><td>
+    <table>
+    <tr><td><input type="checkbox" onclick="var input = document.getElementById('no_of_users'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--users</td><td>
+    <input id="no_of_users" name="no_of_users" disabled="disabled"/></td></tr>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('run_time'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--run-time</td><td>
     <input id="run_time" name="run_time" disabled="disabled"/></td></tr>
     <tr><td><input type="checkbox" onclick="var input = document.getElementById('startup_time'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />--startup-time</td><td>
@@ -32,6 +43,7 @@
     <input type="submit" value="Start performance test">
     </form>
     <script>
+    // value update when box checked/ unchecked
     var default_value = ``;
     function update(feature) {
         // Check
