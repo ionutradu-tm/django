@@ -6,7 +6,7 @@ on:
       - ESDT-16107
 
 env:
-  DJANGO_TAG: "1.0.10.3-testing-payload9"
+  DJANGO_TAG: "1.0.10.3-testing-payload10"
 
 jobs:
   build:

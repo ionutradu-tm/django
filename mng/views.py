@@ -267,8 +267,8 @@ def performance_test(request):
         OPTIONAL = "RUN_TIME=\"%s\",STARTUP_TIME=\"%s\",ITERATIONS=\"%s\",REPORT_FILE=\"%s\",HATCH_RATE=\"%s\",NO_RESET_METRICS=\"%s\"" % (RUN_TIME, STARTUP_TIME, ITERATIONS, REPORT_FILE, HATCH_RATE, NO_RESET_METRICS)
         MANDATORY = MANDATORY.replace("None", "")
         OPTIONAL = OPTIONAL.replace("None", "")
-        # if (TEST_PLAN != ""):
-        #     TEST_PLAN = "\'\"%s\"\'" % (TEST_PLAN)
+        if (TEST_PLAN != ""):
+            TEST_PLAN = "\"%s\"" % (TEST_PLAN)
         if (ENVIRONMENT == "") or (SITE == "") or (SKU == "") or (FACET == ""):
             return render(request, 'performance_test.html')
         else: 
