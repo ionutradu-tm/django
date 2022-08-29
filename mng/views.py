@@ -266,7 +266,7 @@ def performance_test(request):
         MANDATORY = MANDATORY.replace("None", "")
         OPTIONAL = OPTIONAL.replace("None", "")
         if TEST_PLAN is None:
-            TEST_PLAN = "\"\""
+            TEST_PLAN = ""
         else:
             TEST_PLAN = "\"%s\"" % (TEST_PLAN)
         if (ENVIRONMENT == "") or (SITE == "") or (SKU == "") or (FACET == ""):
