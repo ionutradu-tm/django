@@ -3,9 +3,10 @@ on:
   push:
     branches: 
       - master
+      - ESDT-17103
 
 env:
-  DJANGO_TAG: "1.0.10.4"
+  DJANGO_TAG: "1.0.10.5+test-deploy"
 
 jobs:
   build:
