@@ -6,7 +6,7 @@ on:
       - ESDT-17103
 
 env:
-  DJANGO_TAG: "1.0.10.5+test-deploy"
+  DJANGO_TAG: "1.0.10.6-test-deploy"
 
 jobs:
   build:

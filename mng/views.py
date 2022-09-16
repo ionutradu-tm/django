@@ -51,6 +51,7 @@ def deploy(request):
         TO_BRANCH=request.POST.get('ToBranch')
         RUN_TESTS = request.POST.get('run_tests')
         SUITE = request.POST.get('suite')
+        VERSION = request.POST.get('version')
         X_FORCE_CLONE = 'yes'
         X_FORCE_DEPLOY = request.POST.get('force_deploy')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
@@ -61,7 +62,7 @@ def deploy(request):
         if FROM_BRANCH == 'empty' or TO_BRANCH == 'empty':
             return render(request, 'deploy.html')
         else:
-            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "SUITE" : SUITE, "FORCE_DEPLOY": X_FORCE_DEPLOY}
+            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "SUITE" : SUITE, "VERSION" : VERSION, "FORCE_DEPLOY": X_FORCE_DEPLOY}
             data1 = json.dumps(data)
 
             x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
