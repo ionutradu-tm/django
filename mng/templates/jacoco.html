@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    <p> __TITLE__
+    {{ form.as_p }}
+    
+    <table id="Environment">
+    <tr>
+        <td>Environment:</td>
+        <td><select id= "env" name="env">
+            <option value="dev" >Dev</option>
+            <option value="test" selected>Test</option>
+            <option value="uat" >UAT</option>
+            <option value="bprtest" >BPRtest</option>
+            <option value="bpruat" >BPRuat</option>  
+            <option value="sandbox" >Sandbox</option>
+        </select></td>
+    </tr>
+    </table>
+    <table id="Jacoco">
+        <tr>
+            <td>broadleaf-site:</td>
+            <td>
+                <input type="checkbox" name="Broadleaf-site" value="on">
+            </td>
+    </table>
+    <input type="submit" value="Update jacoco">
+</form>
+
+{% endblock %}

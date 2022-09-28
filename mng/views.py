@@ -182,6 +182,23 @@ def debug(request):
         return render(request, 'debug.html')
 
 
+def jacoco(request):
+  if request.method == 'POST':
+      ENVIRONMENT=request.POST.get('Environment')
+      BROADLEAF_SITE=request.POST.get('Broadleaf-site')
+      data = {'event_type': "jacoco", 'client_payload': {"ENVIRONMENT": ENVIRONMENT, "BROADLEAF_SITE": BROADLEAF_SITE}}
+      data1 = json.dumps(data)
+
+      x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+      r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+      messages.add_message(request, messages.INFO, "Enable/Disabled jacoco")
+      x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+      messages.success(request,  x_message, extra_tags='safe')
+      return HttpResponseRedirect('/')
+  else:
+      return render(request, 'jacoco.html')
+
+
 def vm_power(request):
 
     if request.method == 'POST':
