@@ -50,45 +50,31 @@ def deploy(request):
         FROM_BRANCH=request.POST.get('FromBranch')
         TO_BRANCH=request.POST.get('ToBranch')
         RUN_TESTS = request.POST.get('run_tests')
+        SUITE = request.POST.get('suite')
+        VERSION = request.POST.get('version')
         X_FORCE_CLONE = 'yes'
         X_FORCE_DEPLOY = request.POST.get('force_deploy')
-        CI_CD = request.POST.get('ci_cd')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
-        if CI_CD == "wercker":
-            data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
-            data['branch'] = "start-deploy"
-            data['message'] = x_message
-            data['envVars'] = [{ "key": "TO_BRANCH", "value": TO_BRANCH}, { "key": "RUN_TESTS", "value": RUN_TESTS}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": X_FORCE_CLONE}, { "key": "FORCE_DEPLOY", "value": X_FORCE_DEPLOY} ]
-
-            data1 = json.dumps(data)
-            x_headers = {'Content-Type': 'application/json', 'Authorization': "Bearer %s" % (WERCKER_TOKEN)}
-            wercker_url = 'https://app.wercker.com/api/v3/runs/'
-            r = requests.post(wercker_url, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "The deployment has been started")
-            x_message= 'Please check the progress <a href="%s"> wercker </a> ' % (X_WERCKER_URL)
-            messages.success(request,  x_message, extra_tags='safe')
-
+        
+        x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
+        data['event_type'] = x_event_type
+        if FROM_BRANCH == 'empty' or TO_BRANCH == 'empty':
+            return render(request, 'deploy.html')
         else:
-            x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
-            data['event_type'] = x_event_type
-            if FROM_BRANCH == 'empty' or TO_BRANCH == 'empty':
-                return render(request, 'deploy.html')
-            else: 
-                data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "FORCE_DEPLOY": X_FORCE_DEPLOY}
-                data1 = json.dumps(data)
+            data['client_payload'] = { "TO_BRANCH": TO_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE": X_FORCE_CLONE, "RUN_TESTS": RUN_TESTS, "SUITE" : SUITE, "VERSION" : VERSION, "FORCE_DEPLOY": X_FORCE_DEPLOY}
+            data1 = json.dumps(data)
 
-                x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                            'Authorization': "token %s" % (GIT_TOKEN)}
-                r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-                messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-                x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
-                messages.success(request,  x_message, extra_tags='safe')
-            return HttpResponseRedirect('/')  
+            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                        'Authorization': "token %s" % (GIT_TOKEN)}
+            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+            x_message = 'Please check the progress <a href="%s"> actions </a> ' % (REPO_ACTIONS_URL)
+            messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
         return render(request, 'deploy.html')
-    
+
 
 def create_branch(request):
 

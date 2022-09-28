@@ -29,10 +29,14 @@
     </select>
     </td></tr>
     <tr><td>Run tests:</td><td>
-    <select name="run_tests">
+    <select name="run_tests" onchange="toggle('hidden_tr', this)">
         <option value="Yes">Yes</option>
         <option value="No" selected>No</option>
     </select>
+    </td></tr>
+    <tr id="hidden_tr" style="display: none">
+        <td>Suite:</td><td><input type="text" name="suite" value=""></td>
+        <td>Version:</td><td><input type="text" name="version" value="">
     </td></tr>
     <tr><td>Force deploy:</td><td>
     <select name="force_deploy">
@@ -40,13 +44,13 @@
         <option value="No" selected>No</option>
     </select>
     </td></tr>
-        <tr><td>CI/CD:</td><td>
-        <select name="ci_cd">
-        <option value="wercker">Wercker</option>
-        <option value="actions" selected>Actions</option>
-        </select>
-        </td></tr>
+        
     </table>
     <input type="submit" value="Deploy">
 </form>
+<script>
+    function toggle(trId, element) {
+    document.getElementById(trId).style.display = element.value == 'Yes' ? 'table-row' : 'none';
+}
+</script>
 {% endblock %}
