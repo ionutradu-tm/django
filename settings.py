@@ -19,6 +19,8 @@ environ.Env.read_env()
 env = environ.Env(
     DEBUG=(bool, False),
     DEBUG_TOOLBAR=(bool, False),
+    JACOCO=(bool, False),
+    JACOCO_TOOLBAR=(bool, False),
     WERCKER_TOKEN=str,
     ALLOWED_HOSTS=list,
     TRACKER_REPO_PIPELINE_ID=str,
@@ -39,6 +41,9 @@ SECRET_KEY = 's$8xfjqsr$^zkwh*t=o!rf=y!4h8o5x^__dn3t$qr301=5yo4b'
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 DEBUG = env('DEBUG')
+
+#JACOCO = True
+JACOCO = env('JACOCO')
 
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
@@ -76,6 +81,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'django.template.context_processors.jacoco',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',

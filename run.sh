@@ -15,11 +15,22 @@ DEBUG_TEMPLATE="
     </tr>
 "
 
+JACOCO_TEMPLATE="
+    <tr>
+      <td>__JACOCO_NAME__:</td>
+      <td><input type=\"checkbox\" name=\"__JACOCO_NAME__\" value=\"on\"></td>
+    </tr>
+"
+
 django-admin startproject webpage
 
 WORKDIR="/work/webpage/webpage/"
 if [[ -n $DEBUG ]]; then
    echo "DEBUG=$DEBUG" > $WORKDIR".env"
+fi
+
+if [[ -n $JACOCO ]]; then
+   echo "JACOCO=$JACOCO" > $WORKDIR".env"
 fi
 
 if [[ -n $ALLOWED_HOSTS ]]; then
@@ -59,6 +70,7 @@ sed -i -r "s/__facet__/${FACET}/g" /work/mng/templates/performance_test.html
 #generate start/stop replicas
 REPLICA_HTML=""
 DEBUG_HTML=""
+JACOCO_HTML=""
 while IFS='=' read -r name value ; do
    if [[ $name == *'_DEPLOYMENT' ]]; then
       prefix=${name%%_*} # delete longest match from back (everything after first _)
@@ -74,6 +86,12 @@ while IFS='=' read -r name value ; do
       debug_html=${DEBUG_TEMPLATE//__DEBUG_NAME__/${!debug_name}}
       DEBUG_HTML+=$debug_html$'\n'
    fi
+   if [[ $name == *'_JACOCO' ]]; then
+      prefix=${name%%_*} # delete longest match from back (everything after first _)
+      jacoco_name="${prefix}_JACOCO"
+      jacoco_html=${JACOCO_TEMPLATE//__JACOCO_NAME__/${!JACOCO_name}}
+      JACOCO_HTML+=$jacoco_html$'\n'
+   fi
 done < <(env | sort -n) 
 IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$REPLICA_HTML") || true
 REPLICA_HTML_REPLACED=${REPLY%$'\n'}
@@ -84,6 +102,11 @@ IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\
 DEBUG_HTML_REPLACED=${REPLY%$'\n'}
 sed -i -r "s/#__DEBUG_HTML_PLACEHOLDER__/${DEBUG_HTML_REPLACED}/g" /work/mng/templates/debug.html
 sed -i -r "s/__TITLE__/${DEBUG_TITLE}/g" /work/mng/templates/debug.html
+
+IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$JACOCO_HTML") || true
+JACOCO_HTML_REPLACED=${REPLY%$'\n'}
+sed -i -r "s/#__JACOCO_HTML_PLACEHOLDER__/${JACOCO_HTML_REPLACED}/g" /work/mng/templates/jacoco.html
+sed -i -r "s/__TITLE__/${JACOCO_TITLE}/g" /work/mng/templates/jacoco.html
 
 export ACTIVE_BRANCHES
 python /work/modifier.py
