@@ -6,7 +6,7 @@ on:
       - enable-disable-aks-jacoco
 
 env:
-  DJANGO_TAG: "1.0.10.9-jacoco"
+  DJANGO_TAG: "1.0.10.8-jacoco2"
 
 jobs:
   build:
