@@ -81,7 +81,7 @@ def create_branch(request):
         NEW_BRANCH=request.POST.get('ToBranch')
         x_message = "Create branch %s from branch %s" % (NEW_BRANCH, FROM_BRANCH)
         data = {}
-
+        
         data['event_type'] = "create-branch"
         data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
         data1 = json.dumps(data)
