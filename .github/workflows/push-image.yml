@@ -3,9 +3,10 @@ on:
   push:
     branches: 
       - master
+      - master-updates
 
 env:
-  DJANGO_TAG: "1.0.10.6"
+  DJANGO_TAG: "1.0.10.7-documentation-cicd"
 
 jobs:
   build:
