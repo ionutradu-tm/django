@@ -3,6 +3,7 @@ on:
   push:
     branches: 
       - master
+      - modify-master
 
 env:
   DJANGO_TAG: "1.0.10.9"
