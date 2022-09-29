@@ -89,7 +89,7 @@ while IFS='=' read -r name value ; do
    if [[ $name == *'_JACOCO' ]]; then
       prefix=${name%%_*} # delete longest match from back (everything after first _)
       jacoco_name="${prefix}_JACOCO"
-      jacoco_html=${JACOCO_TEMPLATE//__JACOCO_NAME__/${!JACOCO_name}}
+      jacoco_html=${JACOCO_TEMPLATE//__JACOCO_NAME__/${!jacoco_name}}
       JACOCO_HTML+=$jacoco_html$'\n'
    fi
 done < <(env | sort -n) 
