@@ -11,7 +11,6 @@ import os
 
 # Create your views here.
 
-
 environ.Env.read_env()
 env = environ.Env(
     DEBUG=(bool, False),
@@ -88,45 +87,27 @@ def deploy(request):
         return HttpResponseRedirect('/')
     else:
         return render(request, 'deploy.html')
-    
 
 def create_branch(request):
 
     if request.method == 'POST':
         FROM_BRANCH=request.POST.get('FromBranch')
         NEW_BRANCH=request.POST.get('ToBranch')
-        CI_CD=request.POST.get('ci_cd')
         x_message = "Create branch %s from branch %s" % (NEW_BRANCH, FROM_BRANCH)
         data = {}
-        if CI_CD == "wercker":
-            data['pipelineId'] = TRACKER_REPO_PIPELINE_ID
-            data['branch'] = "create-branch"
-            data['message'] = x_message
-            data['envVars'] = [{ "key": "NEW_BRANCH", "value": NEW_BRANCH}, { "key": "SOURCE_BRANCH", "value": FROM_BRANCH}, { "key": "FORCE_CLONE", "value": "yes"} ]
-            data1 = json.dumps(data)
 
-            x_headers = {'Content-Type': 'application/json', 'Authorization': "Bearer %s" % (WERCKER_TOKEN)}
-            wercker_url = 'https://app.wercker.com/api/v3/runs/'
-            r = requests.post(wercker_url, data=data1, headers=x_headers)
-            x_message = 'Please check the progress <a href="%s"> wercker </a>' % (X_WERCKER_URL)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            messages.success(request,  x_message, extra_tags='safe')
-        else:
-            data['event_type'] = "create-branch"
-            data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
-            data1 = json.dumps(data)
-
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
-                         'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Creating the new branch has been started")
-            x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
-            messages.success(request,  x_message, extra_tags='safe')
-
+        data['event_type'] = "create-branch"
+        data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
+        data1 = json.dumps(data)
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json',
+                     'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Creating the new branch has been started")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
         return HttpResponseRedirect('/')
     else:
         return render(request, 'create_branch.html')
-
 
 def train(request):
 
@@ -181,9 +162,8 @@ def debug(request):
     else:
         return render(request, 'debug.html')
 
-
 def jacoco(request):
-  payload = {}
+    payload = {}
     if request.method == 'POST':
         for name, value in request.POST.items():
             if name != "csrfmiddlewaretoken":
@@ -199,7 +179,6 @@ def jacoco(request):
         return HttpResponseRedirect('/')
     else:
         return render(request, 'jacoco.html')
-
 
 def vm_power(request):
 
