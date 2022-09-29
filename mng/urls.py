@@ -9,6 +9,7 @@ urlpatterns = [
     path('train', views.train, name='train'),
     path('replica', views.replica, name='replica'),
     path('debug', views.debug, name='debug'),
+    path('jacoco', views.jacoco, name='jacoco'),
     path('create_branch/', views.create_branch, name='create_branch'),
     path('vm_power', views.vm_power, name='vm_power'),
 ]

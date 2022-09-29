@@ -55,7 +55,7 @@ def deploy(request):
         X_FORCE_DEPLOY = request.POST.get('force_deploy')
         x_message = "Preparing deployment of %s on %s " % (FROM_BRANCH,TO_BRANCH)
         data = {}
-        
+
         x_event_type = "Deployment preparation --- %s into %s" % (FROM_BRANCH,TO_BRANCH)
         data['event_type'] = x_event_type
         if FROM_BRANCH == 'empty' or TO_BRANCH == 'empty':
@@ -81,7 +81,7 @@ def create_branch(request):
         NEW_BRANCH=request.POST.get('ToBranch')
         x_message = "Create branch %s from branch %s" % (NEW_BRANCH, FROM_BRANCH)
         data = {}
-      
+        
         data['event_type'] = "create-branch"
         data['client_payload'] = { "NEW_BRANCH": NEW_BRANCH, "SOURCE_BRANCH": FROM_BRANCH, "FORCE_CLONE":"yes"}
         data1 = json.dumps(data)
@@ -147,6 +147,24 @@ def debug(request):
         return HttpResponseRedirect('/')
     else:
         return render(request, 'debug.html')
+
+def jacoco(request):
+    payload = {}
+    if request.method == 'POST':
+        for name, value in request.POST.items():
+            if name != "csrfmiddlewaretoken":
+                payload[name] = value
+        data = {'event_type': "jacoco", 'client_payload': payload}
+        data1 = json.dumps(data)
+
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Update deployments jacoco")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'jacoco.html')
 
 def vm_power(request):
 
