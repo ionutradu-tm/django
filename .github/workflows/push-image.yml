@@ -3,10 +3,9 @@ on:
   push:
     branches: 
       - master
-      - modify-master
 
 env:
-  DJANGO_TAG: "1.0.10.10-urls2"
+  DJANGO_TAG: "1.0.10.11"
 
 jobs:
   build:
