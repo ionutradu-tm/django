@@ -63,12 +63,12 @@ sed -i -r "s/__BPR_sites__/${BPR_SITES}/g" /work/mng/templates/functional_tests.
 sed -i -r "s/__Locale_en__/${LOCALE_EN}/g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__Locale_non_en__/${LOCALE_NON_EN}/g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__Locale_all__/${LOCALE_ALL}/g" /work/mng/templates/functional_tests.html
-sed -i -r "s/__url__/${FUNCTIONAL_URL}/g" /work/mng/templates/functional_tests.html
+sed -i -r "s,__URL_FUNCTIONAL__,${URL_FUNCTIONAL},g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__site__/${SITE}/g" /work/mng/templates/performance_test.html
 sed -i -r "s/__sku__/${SKU}/g" /work/mng/templates/performance_test.html
 sed -i -r "s/__facet__/${FACET}/g" /work/mng/templates/performance_test.html
-sed -i -r "s/__url__/${PERFORMANCE_URL}/g" /work/mng/templates/performance_test.html 
-sed -i -r "s/__url__/${DEPLOY_URL}/g" /work/mng/templates/deploy.html
+sed -i -r "s,__URL_PERFORMANCE__,${URL_PERFORMANCE},g" /work/mng/templates/performance_test.html 
+sed -i -r "s,__URL_DEPLOY__,${URL_DEPLOY},g" /work/mng/templates/deploy.html
 
 #generate start/stop replicas
 REPLICA_HTML=""
