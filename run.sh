@@ -22,21 +22,6 @@ JACOCO_TEMPLATE="
     </tr>
 "
 
-DEPLOY_TEMPLATE="
-    <br><br>
-    <p1>How to check if a deployment was completed successfully -  <a href=\"__URL_DEPLOY__\"> documentation </a></p1>
-"
-
-FUNCTIONAL_TEMPLATE="
-    <br><br>
-    <p1>How to check if a deployment was completed successfully -  <a href=\"__URL_FUNCTIONAL__\"> documentation </a></p1>
-"
-
-PERFORMANCE_TEMPLATE="
-    <br><br>
-    <p1>How to check if a deployment was completed successfully -  <a href=\"__URL_PERFORMANCE__\"> documentation </a></p1>
-"
-
 django-admin startproject webpage
 
 WORKDIR="/work/webpage/webpage/"
@@ -78,12 +63,12 @@ sed -i -r "s/__BPR_sites__/${BPR_SITES}/g" /work/mng/templates/functional_tests.
 sed -i -r "s/__Locale_en__/${LOCALE_EN}/g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__Locale_non_en__/${LOCALE_NON_EN}/g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__Locale_all__/${LOCALE_ALL}/g" /work/mng/templates/functional_tests.html
-#sed -i -r "s/__URL__/${URL_FUNCTIONAL}/g" /work/mng/templates/functional_tests.html
+sed -i -r "s,__URL_FUNCTIONAL__,${URL_FUNCTIONAL},g" /work/mng/templates/functional_tests.html
 sed -i -r "s/__site__/${SITE}/g" /work/mng/templates/performance_test.html
 sed -i -r "s/__sku__/${SKU}/g" /work/mng/templates/performance_test.html
 sed -i -r "s/__facet__/${FACET}/g" /work/mng/templates/performance_test.html
-#sed -i -r "s/__URL__/${URL_PERFORMANCE}/g" /work/mng/templates/performance_test.html 
-#sed -i -r "s/__URL__/${URL_DEPLOY}/g" /work/mng/templates/deploy.html
+sed -i -r "s,__URL_PERFORMANCE__,${URL_PERFORMANCE},g" /work/mng/templates/performance_test.html 
+sed -i -r "s,__URL_DEPLOY__,${URL_DEPLOY},g" /work/mng/templates/deploy.html
 
 #generate start/stop replicas
 REPLICA_HTML=""
@@ -110,24 +95,6 @@ while IFS='=' read -r name value ; do
       jacoco_html=${JACOCO_TEMPLATE//__JACOCO_NAME__/${!jacoco_name}}
       JACOCO_HTML+=$jacoco_html$'\n'
    fi
-   if [[ $name == *'_DEPLOY' ]]; then
-      prefix=${name%%_*} # delete longest match from back (everything after first _)
-      deploy_name="${prefix}_DEPLOY"
-      deploy_html=${DEPLOY_TEMPLATE/__DEPLOY_NAME__/${!deploy_name}}
-      DEPLOY_HTML+=$deploy_html$'\n'
-   fi
-   if [[ $name == *'_FUNCTIONAL' ]]; then
-      prefix=${name%%_*} # delete longest match from back (everything after first _)
-      functional_name="${prefix}_FUNCTIONAL"
-      functional_html=${FUNCTIONAL_TEMPLATE/__FUNCTIONAL_NAME__/${!functional_name}}
-      FUNCTIONAL_HTML+=$functional_html$'\n'
-   fi
-   if [[ $name == *'_PERFORMANCE' ]]; then
-      prefix=${name%%_*} # delete longest match from back (everything after first _)
-      performance_name="${prefix}_PERFORMANCE"
-      performance_html=${PERFORMANCE_TEMPLATE/__PERFORMANCE_NAME__/${!performance_name}}
-      PERFORMANCE_HTML+=$performance_html$'\n'
-   fi
 done < <(env | sort -n) 
 IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$REPLICA_HTML") || true
 REPLICA_HTML_REPLACED=${REPLY%$'\n'}
@@ -143,18 +110,6 @@ IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\
 JACOCO_HTML_REPLACED=${REPLY%$'\n'}
 sed -i -r "s/#__JACOCO_HTML_PLACEHOLDER__/${JACOCO_HTML_REPLACED}/g" /work/mng/templates/jacoco.html
 sed -i -r "s/__TITLE__/${JACOCO_TITLE}/g" /work/mng/templates/jacoco.html
-
-IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$DEPLOY_HTML") || true
-DEPLOY_HTML_REPLACED=${REPLY%$'\n'}
-sed -i -r "s/#__DEPLOY_HTML_PLACEHOLDER__/${DEPLOY_HTML_REPLACED}/g" /work/mng/templates/deploy.html
-
-IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$FUNCTIONAL_HTML") || true
-FUNCTIONAL_HTML_REPLACED=${REPLY%$'\n'}
-sed -i -r "s/#__FUNCTIONAL_HTML_PLACEHOLDER__/${FUNCTIONAL_HTML_REPLACED}/g" /work/mng/templates/functional_tests.html
-
-IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$PERFORMANCE_HTML") || true
-PERFORMANCE_HTML_REPLACED=${REPLY%$'\n'}
-sed -i -r "s/#__PERFORMANCE_HTML_PLACEHOLDER__/${PERFORMANCE_HTML_REPLACED}/g" /work/mng/templates/performance_test.html
 
 export ACTIVE_BRANCHES
 python /work/modifier.py
