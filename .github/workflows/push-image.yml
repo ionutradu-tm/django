@@ -6,7 +6,7 @@ on:
       - modify-master
 
 env:
-  DJANGO_TAG: "1.0.10.10-urls"
+  DJANGO_TAG: "1.0.10.10-urls1"
 
 jobs:
   build:

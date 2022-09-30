@@ -113,19 +113,19 @@ while IFS='=' read -r name value ; do
    if [[ $name == *'_DEPLOY' ]]; then
       prefix=${name%%_*} # delete longest match from back (everything after first _)
       deploy_name="${prefix}_DEPLOY"
-      deploy_html=${DEPLOY_TEMPLATE//__DEPLOY_NAME__/${!deploy_name}}
+      deploy_html=${DEPLOY_TEMPLATE/__DEPLOY_NAME__/${!deploy_name}}
       DEPLOY_HTML+=$deploy_html$'\n'
    fi
    if [[ $name == *'_FUNCTIONAL' ]]; then
       prefix=${name%%_*} # delete longest match from back (everything after first _)
       functional_name="${prefix}_FUNCTIONAL"
-      functional_html=${FUNCTIONAL_TEMPLATE//__FUNCTIONAL_NAME__/${!functional_name}}
+      functional_html=${FUNCTIONAL_TEMPLATE/__FUNCTIONAL_NAME__/${!functional_name}}
       FUNCTIONAL_HTML+=$functional_html$'\n'
    fi
    if [[ $name == *'_PERFORMANCE' ]]; then
       prefix=${name%%_*} # delete longest match from back (everything after first _)
       performance_name="${prefix}_PERFORMANCE"
-      performance_html=${PERFORMANCE_TEMPLATE//__PERFORMANCE_NAME__/${!performance_name}}
+      performance_html=${PERFORMANCE_TEMPLATE/__PERFORMANCE_NAME__/${!performance_name}}
       PERFORMANCE_HTML+=$performance_html$'\n'
    fi
 done < <(env | sort -n) 
