@@ -200,33 +200,18 @@ def functional_tests(request):
         CLUSTER = request.POST.get('Cluster')
         HUB = request.POST.get('Hub')
         DOCKER_TAG = request.POST.get('Docker tag')
-        if CLUSTER == "dcos":
-            x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
-            data = {'event_type': "functional-tests",
-                    'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
-                                       "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL,
-                                       "resource_group": "Functional-tests", "vm_name": "zalenium"}}
-            data1 = json.dumps(data)
+        x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
+        data = {'event_type': "functional-tests-aks",
+                'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
+                                    "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL, "HUB": HUB, "DOCKER_TAG": DOCKER_TAG}}
+        data1 = json.dumps(data)
 
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL_FT, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Starting functional-tests")
-            x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL_FT)
-            messages.success(request,  x_message, extra_tags='safe')
-            return HttpResponseRedirect('/')
-        else:
-            x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
-            data = {'event_type': "functional-tests-aks",
-                    'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
-                                       "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL, "HUB": HUB, "DOCKER_TAG": DOCKER_TAG}}
-            data1 = json.dumps(data)
-
-            x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
-            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-            messages.add_message(request, messages.INFO, "Starting aks functional-tests")
-            x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
-            messages.success(request,  x_message, extra_tags='safe')
-            return HttpResponseRedirect('/')
+        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+        messages.add_message(request, messages.INFO, "Starting aks functional-tests")
+        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+        messages.success(request,  x_message, extra_tags='safe')
+        return HttpResponseRedirect('/')
     else:
         return render(request, 'functional_tests.html')
 
