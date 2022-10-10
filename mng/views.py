@@ -189,29 +189,40 @@ def vm_power(request):
 def functional_tests(request):
 
     if request.method == 'POST':
-        VERSION=request.POST.get('Version')
-        ENVIRONMENT=request.POST.get('Environment')
-        SUITE=request.POST.get('Suite')
-        CUSTOM_LOCALE = request.POST.get('Custom_locale')
-        BPR_SITES = request.POST.get('BPR_sites')
-        LOCALE_EN = request.POST.get('Locale_en')
-        LOCALE_NON_EN = request.POST.get('Locale_non_en')
-        LOCALE_ALL = request.POST.get('Locale_all')
-        CLUSTER = request.POST.get('Cluster')
-        HUB = request.POST.get('Hub')
-        DOCKER_TAG = request.POST.get('Docker tag')
-        x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
-        data = {'event_type': "functional-tests-aks",
-                'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
-                                    "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL, "HUB": HUB, "DOCKER_TAG": DOCKER_TAG}}
-        data1 = json.dumps(data)
+        if 'cron' in request.POST:
+            MINUTE=request.POST.get('minute')
+            HOUR=request.POST.get('hour')
+            DAY_OF_THE_MONTH=request.POST.get('day_of_the_month')
+            MONTH_OF_THE_YEAR=request.POST.get('month_of_the_year')
+            DAY_OF_THE_WEEK=request.POST.get('day_of_the_week')
+            VERSION=request.POST.get('Cron_Version')
+            ENVIRONMENT=request.POST.get('Cron_Environment')
+            SUITE=request.POST.get('Cron_Suite')
 
-        x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
-        r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
-        messages.add_message(request, messages.INFO, "Starting aks functional-tests")
-        x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
-        messages.success(request,  x_message, extra_tags='safe')
-        return HttpResponseRedirect('/')
+        else
+            VERSION=request.POST.get('Version')
+            ENVIRONMENT=request.POST.get('Environment')
+            SUITE=request.POST.get('Suite')
+            CUSTOM_LOCALE = request.POST.get('Custom_locale')
+            BPR_SITES = request.POST.get('BPR_sites')
+            LOCALE_EN = request.POST.get('Locale_en')
+            LOCALE_NON_EN = request.POST.get('Locale_non_en')
+            LOCALE_ALL = request.POST.get('Locale_all')
+            CLUSTER = request.POST.get('Cluster')
+            HUB = request.POST.get('Hub')
+            DOCKER_TAG = request.POST.get('Docker tag')
+            x_message = "Test build %s on environment %s, suite %s, on %s cluster" % (VERSION, ENVIRONMENT, SUITE, CLUSTER)
+            data = {'event_type': "functional-tests-aks",
+                    'client_payload': {"version_tag": VERSION, "ENVIRONMENT": ENVIRONMENT, "SUITE": SUITE, "CUSTOM_LOCALE": CUSTOM_LOCALE, "BPR_SITES": BPR_SITES,
+                                        "LOCALE_EN": LOCALE_EN, "LOCALE_NON_EN": LOCALE_NON_EN, "LOCALE_ALL": LOCALE_ALL, "HUB": HUB, "DOCKER_TAG": DOCKER_TAG}}
+            data1 = json.dumps(data)
+
+            x_headers = {'Accept': 'application/vnd.github.everest-preview+json', 'Authorization': "token %s" % (GIT_TOKEN)}
+            r = requests.post(ACTIONS_URL, data=data1, headers=x_headers)
+            messages.add_message(request, messages.INFO, "Starting aks functional-tests")
+            x_message = 'Please check the progress <a href="%s"> actions </a>' % (REPO_ACTIONS_URL)
+            messages.success(request,  x_message, extra_tags='safe')
+            return HttpResponseRedirect('/')
     else:
         return render(request, 'functional_tests.html')
 

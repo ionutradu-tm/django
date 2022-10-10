@@ -26,9 +26,9 @@
     <br><br>
     
     <tr><td>Current parameters:</td><td>
-    <button onclick="hide_show()">Hide/Show</button>
+    <button type="button" onclick="hide_show('1')">Hide/Show</button>
     </td></tr>
-    <table id="1">
+    <table id="1" style="display: none;">
     <tr><td>Hub:</td><td>
     <select name="Hub">
         <option value="azure-ssl" >azure-ssl</option>
@@ -51,9 +51,9 @@
     <br><br>
 
     <tr><td>Advanced settings:</td><td>
-    <button name="2" onclick="hide_show1()">Hide/Show</button>
+    <button type="button" onclick="hide_show('2')">Hide/Show</button>
     </td></tr>
-    <table id="2">
+    <table id="2" style="display: none;">
     <tr><td>Cluster:</td><td>
     <select name="Cluster">
         <option value="k8s" selected>Kubernetes</option>
@@ -66,35 +66,35 @@
     <br><br>
     
     <tr><td>Cron:</td><td>
-    <button name="3" onclick="hide_show2()">Hide/Show</button>
+    <button type="button" onclick="hide_show('3')">Hide/Show</button>
     </td></tr>
-    <table id="3">
-        <td>Minute [0,59]:</td><td><input type="text" name="minute" value="30" style="width:50px;text-align: center;"></td><td>Hour [0,23]:</td><td><input type="text" name="hour" value="2" style="width:50px;text-align: center;"></td><td>Day of the month [1,31]:</td><td><input type="text" name="day_of_the_month" value="*" style="width:50px;text-align: center;"></td><td>Month of the year [1,12]:</td><td><input type="text" name="month_of_the_year" value="*" style="width:50px;text-align: center;"></td><td>Day of the week [0,6 with 0=Sunday]:</td><td><input type="text" name="day_of_the_week" value="*" style="width:50px;text-align: center;"></td>
-        <tr><td>Version:</td><td>
-        <input type="text" name="Version"></td></tr>
-        <tr><td>Environment:</td><td>
-        <select name="Environment">
-            <option value="empty" selected></option>
-            <option value="develop">develop</option>
-            <option value="test">test</option>
-            <option value="uat">uat</option>
-            <option value="bprtest">bprtest</option>
-            <option value="bpruat">bpruat</option>
-            <option value="sandbox">sandbox</option>
-            <option value="preprd">preprd</option>
-        </select>
+    <table id="3" style="display: none;">
+        <tr><td colspan="4">Minute [0,59]:<input type="number" name="minute" value="30" style="width:50px;"> Hour [0,23]:<input style="width:50px;" type="number" name="hour" value="2"> Day of the month [1,31]:<input style="width:50px;" type="number" name="day_of_the_month"> Month of the year [1,12]:<input style="width:50px;" type="number" name="month_of_the_year"> Day of the week [0,6 with 0=Sunday]:<input style="width:50px;" type="number" name="day_of_the_week"><td></td><td></td><td></td></tr>        
+        <tr><td style="width: 100px;">Environment:</td><td>
+            <select name="Cron_Environment">
+                <option value="empty" selected></option>
+                <option value="develop">develop</option>
+                <option value="test">test</option>
+                <option value="uat">uat</option>
+                <option value="bprtest">bprtest</option>
+                <option value="bpruat">bpruat</option>
+                <option value="sandbox">sandbox</option>
+                <option value="preprd">preprd</option>
+            </select>
         </td></tr>
+        <tr><td>Version:</td><td>
+        <input type="text" name="Cron_Version"></td></tr>
         <tr><td>Suite:</td><td>
-        <input type="text" name="Suite" value="@smoke"> </td></tr>
+        <input type="text" name="Cron_Suite" value="@smoke"> </td></tr>
         <br><br>
-        <tr><td><input type="submit" value="__status_cron__"></td></tr>
+        <tr><td><input type="submit" name ="cron" value="__status_cron__"></td></tr>
     </table>
     <br><br>
 
     <p1>Running functional-tests with different image tags -  <a href="__URL_FUNCTIONAL__"> documentation </a></p1>
     <script>
-    function hide_show() {
-        var x = document.getElementById("1");
+    function hide_show(id) {
+        var x = document.getElementById(id);
         if (x.style.display === "none") {
         x.style.display = "block";
         } else {
@@ -103,6 +103,4 @@
     }
     </script>
 </form>
-<button onclick="hide_show()">Hide/Show</button>
-
 {% endblock %}
