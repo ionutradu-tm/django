@@ -3,9 +3,10 @@ on:
   push:
     branches: 
       - master
+      - new-environment
 
 env:
-  DJANGO_TAG: "1.0.10.11"
+  DJANGO_TAG: "1.0.11-testing"
 
 jobs:
   build:
